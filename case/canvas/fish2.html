@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>在最深的海洋里</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+
+    <style>
+        canvas, body {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        body {
+            background: url(src/ocean.jpg) center;
+            background-size: cover;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div></div>
+
+<script>
+    "use strict";function init(){canvas.width=window.innerWidth,canvas.height=window.innerHeight}function fish(){this.pos={x:Math.random()*canvas.width*.8+.1*canvas.width,y:Math.random()*canvas.height*.8+.1*canvas.height},this.speed=8,this.vx=Math.random()*this.speed/4,this.vy=Math.random()*this.speed/4,this.colIndex=Math.floor(Math.random()*colorsFish.length),this.history=[]}function ball(t,s){this.xh=s.xh,this.cy=s.cy-s.height*t,this.oldcx=s.cx,this.color=s.color,this.radius=8*Math.random()+4,this.theta=t,this.curvature=s.curvature,this.speed=s.speed}function grass(){var t=Math.random()>.5?1:-1;this.height=1e3*Math.random()+200,this.curvature=20*Math.random(),this.speed=180*Math.random()+720,this.cx=Math.random()*canvas.width/2*t+canvas.width/2,this.cy=canvas.height,this.colIndex=Math.floor(Math.random()*colorsGrass.length),this.color=colorsGrass[this.colIndex],this.width=12,this.shape=[];for(var s=0;s<Math.PI/8;s+=Math.PI/720)this.shape.push(new ball(s,this))}function pawpaw(){this.deg=0,this.per=Math.PI/180,this.radius=10*Math.random()+6,this.speed=4*Math.random()+4,this.pos={oldx:Math.random()*canvas.width*.8+.1*canvas.width,oldy:canvas.height+Math.random()*canvas.height}}function animate(){ctx.clearRect(0,0,canvas.width,canvas.height),fishs.length<maxNumFish&&fishs.push(new fish),fishs=fishs.filter(function(t){return t.animate()}),pawpaws.length<30&&pawpaws.push(new pawpaw),pawpaws=pawpaws.filter(function(t){return t.animate()}),grasss.length<maxNumGrass&&grasss.push(new grass),grasss=grasss.filter(function(t){return t.animate()}),requestAnimationFrame(animate)}var canvas=document.createElement("canvas");document.body.appendChild(canvas);var ctx=canvas.getContext("2d"),maxNumFish=12,maxNumGrass=32,colorsFish=["red","skyblue","yellow","#2f0","#ff6be0"],colorsGrass=["#4aff1d","#36aa22","#7daa53","yellow"];init(),window.addEventListener("resize",init);var per=Math.PI/180,fishs=[],grasss=[],xh=0;fish.prototype.animate=function(){if(this.history.length>18&&this.history.shift(),this.pos.x+=this.vx,this.pos.y+=this.vy,this.vx=.98*this.vx+.12*(Math.random()*this.speed*2-this.speed),this.vy=.98*this.vy+.12*(Math.random()*this.speed*2-this.speed),this.history.length>17){ctx.beginPath(),ctx.moveTo(this.pos.x,this.pos.y);for(var t=0;t<this.history.length;t++)ctx.lineTo(this.history[t].x,this.history[t].y);var s=ctx.createLinearGradient(this.pos.x,this.pos.y,this.history[0].x,this.history[0].y);s.addColorStop(0,colorsFish[this.colIndex]),s.addColorStop(1,"transparent"),ctx.strokeStyle=s,ctx.fillStyle=s,ctx.lineWidth=15,ctx.lineJoin="round",ctx.closePath(),ctx.fill(),ctx.stroke()}return this.pos.x>canvas.width||this.pos.x<0||this.pos.y>canvas.height||this.pos.y<0?(delete this.pos,delete this.history,!1):(this.history.push({x:this.pos.x,y:this.pos.y}),!0)},ball.prototype.dong=function(){this.theta+=Math.PI/this.speed,this.cx=this.oldcx+this.curvature*Math.cos(8*this.theta),ctx.fillStyle=this.color,ctx.beginPath(),ctx.arc(this.cx,this.cy,this.radius,0,Math.PI/1.5),ctx.closePath(),ctx.fill()},grass.prototype.animate=function(){for(var t in this.shape)this.shape[t].dong();return!0};var pawpaws=[];pawpaw.prototype.animate=function(){this.deg+=this.speed,this.pos.y=this.pos.oldy-this.deg*this.per*10,this.pos.x=this.pos.oldx+this.speed*Math.cos(this.deg*this.per);var t=ctx.createRadialGradient(this.pos.x,this.pos.y,0,this.pos.x,this.pos.y,this.radius);return t.addColorStop(0,"transparent"),t.addColorStop(.99,"rgba(25,162,186,1)"),ctx.beginPath(),ctx.fillStyle="rgba(25,162,186,.6)",ctx.arc(this.pos.x,this.pos.y,this.radius,-Math.PI,0),ctx.closePath(),ctx.fill(),ctx.beginPath(),ctx.fillStyle=t,ctx.arc(this.pos.x,this.pos.y,this.radius,0,2*Math.PI),ctx.closePath(),ctx.fill(),!(this.pos.x>canvas.width||this.pos.x<0||this.pos.y<0)},ctx.globalCompositeOperation="lighter",ctx.globalAlpha=.4,animate();
+</script>
+
+</body>
+</html>

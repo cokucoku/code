@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>canvas抽獎</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .time-graph {
+            display: flex;
+            display: -webkit-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="time-graph">
+    <canvas id="time" width="500" height="500"></canvas>
+</div>
+<script type="text/javascript">
+"use strict";function drawCircle(e){var t=document.getElementById("time");t.style.backgroundColor="#f0f0f0";var r=t.getContext("2d"),n=t.width/2,l=t.height/2,o=2*Math.PI/100;r.lineWidth=38;var a=n-2*r.lineWidth;r.translate(n,l),function(){for(var t=0,n=0,l=0,c=0;c<e.length;c++)t+=e[c].number;for(var f=0;f<e.length;f++){var i=e[f].number/t*100;l+=i,r.beginPath(),r.strokeStyle=e[f].color,console.log(n,l),r.arc(0,0,a,n*o,l*o),r.stroke(),r.closePath(),n+=i}}(),function(){r.fillStyle="#ffffff",r.font="20px Helvetica";for(var t=0,n=0,l=0,c=0,f=0;f<e.length;f++)t+=e[f].number;for(var i=0;i<e.length;i++){var m=e[i].number/t*100;l+=m,c=l-m/2,r.fillText(m.toFixed(0)+"%",a*Math.cos(c*o),a*Math.sin(c*o)),n+=m}}(),r.translate(-n,-l),function(){for(var t=10,n=0;n<e.length;n++)r.beginPath(),r.fillStyle=e[n].color,r.textBaseline="top",r.font="14px Helvetica",r.fillText(e[n].name,38,t+1),r.rect(10,t,24,14),r.fill(),r.closePath(),t+=18}()}var myArray=[{name:"1号",color:"#409eff",number:500},{name:"2号",color:"#67c23a",number:500},{name:"3号",color:"#909399",number:200},{name:"4号",color:"#e6a23c",number:300},{name:"5号",color:"#f56c6c",number:50}];drawCircle(myArray);
+</script>
+</body>
+
+</html>

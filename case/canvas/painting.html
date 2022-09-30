@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>canvas画板</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_1605630_gg4nyiq23q.css">
+    <link rel="stylesheet" href="tool/slider.css">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+            overflow: hidden;
+        }
+
+
+        .tools {
+            position: fixed;
+            z-index: 3;
+            left: 50%;
+            transform: translateX(-50%);
+            width: fit-content;
+            bottom: 30px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 20px;
+            border-radius: 50px;
+            box-shadow: 0 1px 2px 0 rgba(32, 33, 36, 0.28);
+            background: #fff;
+        }
+
+        .tools div {
+            border: solid 2px transparent;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 0 6px;
+            transition: all .43s;
+        }
+
+        .tools .on {
+            border-color: #1398E6;
+            border-radius: 5px
+        }
+
+        .tools .disabled {
+            color: #ddd;
+            pointer-events: none;
+        }
+
+        .tools i {
+            font-size: 20px;
+        }
+
+        .set {
+            visibility: hidden;
+            position: fixed;
+            left: 50%;
+            margin-left: -140px;
+            bottom: 90px;
+            width: 280px;
+            padding: 20px 24px;
+            border: 1px solid #81A4BD;
+            border-radius: 5px;
+            color: #808FA2;
+            background: #fff;
+            font-size: 14px;
+            z-index: 3;
+        }
+
+        .set .close {
+            font-size: 24px;
+            cursor: pointer;
+            position: absolute;
+            right: 6px;
+            top: 6px;
+        }
+
+        .size {
+            height: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .size .show {
+            width: 30px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .size .show i {
+            -webkit-border-radius: 100%;
+            -moz-border-radius: 100%;
+            border-radius: 100%;
+        }
+
+        .size .slider {
+            flex-grow: 1;
+        }
+
+        .colors ul {
+            display: block;
+        }
+
+        .colors li {
+            float: left;
+            width: 30px;
+            height: 30px;
+            margin: 4px;
+            border-radius: 100%;
+            cursor: pointer;
+        }
+
+        .colors li.active {
+            position: relative;
+        }
+
+        .colors li.active:before {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: solid 2px #fff;
+            border-radius: 100%;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="tools">
+    <div class="down"><i class="iconfont icon-xiazaibeifen"></i></div>
+    <div class="bi on"><i class="iconfont icon-bi"></i></div>
+    <div class="cha"><i class="iconfont icon-xiangpica"></i></div>
+    <div class="laji"><i class="iconfont icon-lajitong"></i></div>
+    <div class="prev"><i class="iconfont icon-prev"></i></div>
+    <div class="next"><i class="iconfont icon-next"></i></div>
+</div>
+<div class="set">
+    <div class="close iconfont icon-close"></div>
+    <div class="ti">笔大小</div>
+    <div class="size">
+        <div class="show"><i id="bishow"></i></div>
+        <div class="slider" id="slider"></div>
+    </div>
+    <div class="ti">笔颜色</div>
+    <div class="colors">
+        <ul>
+            <li class="active" style="background-color: #000"></li>
+            <li style="background-color: #F33"></li>
+            <li style="background-color: #9c0"></li>
+            <li style="background-color: #06f"></li>
+            <li style="background-color: #ff3"></li>
+            <li style="background-color: #3c6"></li>
+        </ul>
+    </div>
+</div>
+<canvas id="myCanvas">
+</canvas>
+<script src="tool/slider.js"></script>
+<script type="text/javascript">
+"use strict";function funDownload(e,t){var c=document.createElement("a");c.download=t,c.style.display="none",c.href=e,c.click()}function cgdisable(e,t){if(e.length>0?(prev.classList.remove("disabled"),t<e.length-1?(next.classList.remove("disabled"),-1==t&&prev.classList.add("disabled")):next.classList.add("disabled")):(prev.classList.add("disabled"),next.classList.add("disabled")),-1!=t){var c=e[t];if(void 0!=c){var i=new Image;i.src=c,i.onload=function(){ctx.clearRect(0,0,sw,sh),ctx.drawImage(i,0,0)}}}else ctx.clearRect(0,0,sw,sh)}var historys=[],curhis=-1,currentColor="#000",currentSize=20,c=document.getElementById("myCanvas"),sw=window.innerWidth,sh=window.innerHeight;c.width=sw,c.height=sh;var ctx=c.getContext("2d"),setdiv=document.querySelector(".set"),close=document.querySelector(".close"),downs=document.querySelector(".down"),bi=document.querySelector(".bi"),bishow=document.getElementById("bishow"),corli=document.querySelector(".colors").getElementsByTagName("li"),cha=document.querySelector(".cha"),laji=document.querySelector(".laji"),next=document.querySelector(".next"),prev=document.querySelector(".prev"),write=!0;ctx.lineCap="round",ctx.lineJoin="round",cgdisable(historys,curhis),new Slider("#slider",{theme:"yellow",size:"s",initvalue:100,showtip:!1,slideend:function(e,t){currentSize=Math.floor(.2*e),bishow.style.cssText="background:"+currentColor+";width:"+currentSize+"px;height:"+currentSize+"px;"}}),close.onclick=function(){setdiv.style.visibility="hidden"},downs.onclick=function(){var e=void 0;c.toBlob(function(t){e=URL.createObjectURL(t);var c=new Date,i=c.getTime();funDownload(e,i)},"image/png",.95)},bi.onclick=function(){setdiv.style.visibility="visible",write=!0,this.classList.add("on"),cha.classList.remove("on")},cha.onclick=function(){write=!1,this.classList.add("on"),bi.classList.remove("on")},laji.onclick=function(){ctx.clearRect(0,0,sw,sh),historys=[],cgdisable(historys,curhis)},prev.onclick=function(){curhis--,curhis<=-1&&(curhis=-1),cgdisable(historys,curhis)},next.onclick=function(){curhis++,curhis>=historys.length-1&&(curhis=historys.length-1),cgdisable(historys,curhis)},Array.from(corli).map(function(e,t){e.onclick=function(){Array.from(e.parentElement.children).map(function(e){e.classList.remove("active")}),e.classList.add("active");var t=e.getAttribute("style").split(":");currentColor=t[1]}});var down=!1,bgx=void 0,bgy=void 0;c.addEventListener("mousedown",function(e){ctx.strokeStyle=currentColor,ctx.lineWidth=currentSize,bgx=e.pageX,bgy=e.pageY,ctx.beginPath(),ctx.moveTo(bgx,bgy),down=!0}),c.addEventListener("mousemove",function(e){down&&(write?(ctx.lineTo(e.pageX,e.pageY),ctx.stroke()):ctx.clearRect(e.pageX,e.pageY,40,40))}),c.addEventListener("mouseup",function(e){down=!1,ctx.closePath();var t=void 0;c.toBlob(function(e){t=URL.createObjectURL(e),historys.push(t),curhis=historys.length-1,cgdisable(historys,curhis)},"image/png",1)}),c.addEventListener("touchstart",function(e){ctx.strokeStyle=currentColor,ctx.lineWidth=currentSize,bgx=e.targetTouches[0].clientX,bgy=e.targetTouches[0].clientY,ctx.beginPath(),ctx.moveTo(bgx,bgy),down=!0}),c.addEventListener("touchmove",function(e){down&&(write?(ctx.lineTo(e.targetTouches[0].clientX,e.targetTouches[0].clientY),ctx.stroke()):ctx.clearRect(e.targetTouches[0].clientX,e.targetTouches[0].clientY,40,40))}),c.addEventListener("touchend",function(e){down=!1,ctx.closePath();var t=void 0;c.toBlob(function(e){t=URL.createObjectURL(e),historys.push(t),curhis=historys.length-1,cgdisable(historys,curhis)},"image/png",1)});
+
+</script>
+</body>
+
+</html>

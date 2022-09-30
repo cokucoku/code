@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>下雪</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+
+<body>
+<canvas id="canvas"></canvas>
+<script type="text/javascript">
+    "use strict";function xiayu(){ctx.clearRect(0,0,c.width,c.height);for(var t in yus)yus[t].dong();requestAnimationFrame(xiayu)}var c=document.getElementById("canvas");c.width=window.innerWidth,c.height=window.innerHeight;var maxh=window.innerHeight,ctx=c.getContext("2d");ctx.fillStyle="#fff",ctx.strokeStyle="#fff",ctx.lineWidth=2;var yu=function(){this.length=18*Math.random()+34,this.y=Math.random()*c.height,this.x=Math.random()*c.width,this.speed=10*Math.random()+20,this.opacity=.3*Math.random()};yu.prototype.dong=function(){var t=Math.sqrt(this.length*this.length/2);this.x-=this.speed,this.x<0&&(this.x=Math.random()*c.width),this.y+=this.speed,this.y>maxh&&(this.y=14*-Math.random()),ctx.globalAlpha=this.opacity,ctx.beginPath(),ctx.lineTo(this.x,this.y),ctx.lineTo(this.x-t,this.y+t),ctx.closePath(),ctx.stroke()};for(var yus=[],i=0;i<400;i++)yus[i]=new yu;xiayu();
+</script>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-image: url(src/tq.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+
+    }
+
+
+    .yu {
+        background: #fff;
+        position: absolute;
+        filter: blur(1px);
+        z-index: 1;
+    }
+</style>
+</body>
+
+</html>

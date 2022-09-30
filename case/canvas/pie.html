@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>canvas抽獎</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .time-graph {
+            display: flex;
+            display: -webkit-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="time-graph">
+    <canvas id="time" width="500" height="500"></canvas>
+</div>
+<script type="text/javascript">
+   "use strict";function drawCircle(e){var t=document.getElementById("time");t.style.backgroundColor="#f0f0f0";var r=t.getContext("2d"),l=t.width/2,a=t.height/2,n=2*Math.PI/100;r.lineWidth=.5;var o=l-128*r.lineWidth;r.translate(l,a),function(){r.save(),r.rotate(-Math.PI/2);for(var t=0,l=0,a=0,f=0;f<e.length;f++)t+=e[f].number;for(var i=0;i<e.length;i++){var c=e[i].number/t*100;a+=c,r.beginPath(),r.strokeStyle="#fff",r.fillStyle=e[i].color,console.log(l,a),r.moveTo(0,0),r.arc(0,0,o,l*n,a*n),r.fill(),r.stroke(),r.closePath(),l+=c}r.restore()}(),function(){r.save(),r.fillStyle="#ffffff",r.font="20px Helvetica",r.textAlign="center",r.textBaseline="middle";for(var t=0,l=0,a=0,f=0,i=0;i<e.length;i++)t+=e[i].number;for(var c=0;c<e.length;c++){var m=e[c].number/t*100;a+=m,f=a-m/2,r.fillText(m.toFixed(0)+"%",o/2*Math.cos(-Math.PI/2+f*n),o/2*Math.sin(-Math.PI/2+f*n)),l+=m}r.restore()}(),r.translate(-l,-a),function(){r.save();for(var t=10,l=0;l<e.length;l++)r.beginPath(),r.fillStyle=e[l].color,r.textBaseline="top",r.font="14px Helvetica",r.fillText(e[l].name,38,t+1),r.rect(10,t,24,14),r.fill(),r.closePath(),t+=18;r.restore()}()}var myArray=[{name:"15k",color:"#409eff",number:10},{name:"10k",color:"#67c23a",number:20},{name:"8k",color:"#909399",number:30},{name:"5k",color:"#e6a23c",number:40},{name:"3k",color:"#f56c6c",number:50}];drawCircle(myArray);
+</script>
+</body>
+
+</html>

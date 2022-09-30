@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>【实例】canvas太阳系的动画</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .time-graph {
+            display: flex;
+            display: -webkit-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="time-graph">
+    <canvas id="canvas" width="600" height="300"></canvas>
+</div>
+<script type="text/javascript">
+ "use strict";function draw(){ctx.fillStyle="rgba(255,255,255,0.3)",ctx.fillRect(0,0,canvas.width,canvas.height),ball.draw(),(ball.y+ball.vy>canvas.height||ball.y+ball.vy<0)&&(ball.vy=-ball.vy),(ball.x+ball.vx>canvas.width||ball.x+ball.vx<0)&&(ball.vx=-ball.vx),ball.x+=ball.vx,ball.y+=ball.vy,ball.vy*=.99,ball.vy+=.25,raf=window.requestAnimationFrame(draw)}var canvas=document.getElementById("canvas"),ctx=canvas.getContext("2d"),raf;canvas.style.border="solid 1px #000";var ball={x:100,y:100,vx:5,vy:2,radius:25,color:"blue",draw:function(){ctx.beginPath(),ctx.arc(this.x,this.y,this.radius,0,2*Math.PI,!0),ctx.closePath(),ctx.fillStyle=this.color,ctx.fill()}};raf=window.requestAnimationFrame(draw),canvas.addEventListener("mouseout",function(a){}),ball.draw();
+
+</script>
+</body>
+
+</html>

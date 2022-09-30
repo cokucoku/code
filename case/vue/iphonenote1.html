@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>[实战]49苹果桌面通知</title>
+    <link rel="stylesheet" href="src/note.css">
+</head>
+
+<body>
+    <div class="news">
+        <div class="datearea">
+            <div class="time">{{time}}</div>
+            <div class="day">{{day}} {{xq}}</div>
+            <div class="old">乙亥年八月十三</div>
+        </div>
+        <div class="newslist">
+            <transition-group name="fade" tag="ul">
+                <li v-for="(item,inx) in news" :key="item" :class="{suo:!item.exp,exp:item.exp}">
+                    <div class="k">
+                        <div class="mark" v-if="!item.exp&&item.child.length>1" @click="exp(item)"></div>
+                        <div class="mark1" v-if="item.del" @click="item.del=false"></div>
+                        <div class="ktit">
+                            <div class="from">{{item.from}}</div>
+                            <div class="dos">
+                                <div v-if="!item.del" class="zd" @click="suo(item)">
+                                    <div class="arrow"></div>
+                                    <div class="te">折叠</div>
+                                </div>
+                                <div v-else class="zd del" @click="item.del=false">
+                                    <div class="arrow"></div>
+                                    <div class="te">折叠</div>
+                                </div>
+                                <div class="close" :class="{del:item.del}">
+                                    <div class="te" @click="del(inx)">清除</div>
+                                    <div class="cha" @click="item.del=true"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="klis">
+                            <transition-group name="slide" tag="div">
+                                <div class="kli" :key="it" v-for="(it,inx) in fi(item.child)" @click="goto(it.url)">
+                                    <div class="ti">{{item.from}}<i>{{it.time}}</i></div>
+                                    <div class="con">{{it.content}}
+                                        <div class="more" v-if="inx==0&&item.child.length>1">还有{{item.child.length-1}}通知</div>
+                                    </div>
+                                </div>
+                            </transition-group>
+                            <div class="morezd" v-if="item.child.length>1&&!item.exp">
+                                <div class="zdm one"></div>
+                                <div class="zdm two" v-if="item.child.length>2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </transition-group>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="src/note.js"></script>
+    <script>
+    "use strict";new Vue({el:".news",data:{time:"",day:"",xq:"",news:""},mounted:function(){var e=this;note.map(function(t){e.$set(t,"exp",!1),e.$set(t,"del",!1),t.child.map(function(t){e.$set(t,"exp",!1)}),e.$set(t.child[0],"exp",!0)}),this.news=note,this.day=(new Date).getMonth()+1+"月"+(new Date).getDate()+"日";var t,n=(new Date).getDay();switch(console.log(n),n){case 1:t="一";break;case 2:t="二";break;case 3:t="三";break;case 4:t="四";break;case 5:t="五";break;case 6:t="六";break;case 0:t="日"}this.xq="星期"+t,this.tt(),setInterval(this.tt,1e3)},computed:{},methods:{tt:function(){var e=(new Date).getHours()<10?"0"+(new Date).getHours():(new Date).getHours(),t=(new Date).getMinutes()<10?"0"+(new Date).getMinutes():(new Date).getMinutes();this.time=e+":"+t},goto:function(e){window.open(e)},del:function(e){this.news.splice(e,1)},fi:function(e){return e.filter(function(e){return 1==e.exp})},exp:function(e){var t=this;t.$set(e,"exp",!0),e.child.map(function(e){t.$set(e,"exp",!0)})},suo:function(e){var t=this;t.$set(e,"exp",!1),e.child.map(function(e){t.$set(e,"exp",!1)}),t.$set(e.child[0],"exp",!0)}}});
+    </script>
+</body>
+
+</html>

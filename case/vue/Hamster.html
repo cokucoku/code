@@ -1,0 +1,247 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>[实战]59地鼠</title>
+    <style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        box-sizing: border-box;
+    }
+
+    [v-cloak] {
+        display: none
+    }
+
+    .dishu {
+        width: 100vw;
+        height: 100vh;
+        background-image: radial-gradient(#00b052, #115733);
+        position: relative;
+    }
+
+    .dishu .begin {
+        text-align: center;
+        line-height: 66px;margin:0 auto;
+        color: #fff;
+        font-size: 36px;
+        width: 196px;
+        height: 66px;
+        border-radius: 20px;
+        background-image: linear-gradient(to bottom, #f60, #f30);
+        cursor: pointer;
+        box-shadow:  0 12px #f8c951;
+    }
+
+    .dishu .score {
+        position: absolute;
+        font-size: 32px;
+        color: #fff;
+        right: 2vw;
+        top: 2vw;
+    }
+
+    .dishu .score i {
+        color: #ff0;
+        font-style: normal;
+    }
+
+    .dishu ul {
+        cursor: url(src/cui.png), default;
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .dishu li {
+        width: 20vw;
+        height: 20vh;
+        margin-top: 10vh;
+        margin-left: 10vw;
+        display: flex;
+        align-items: center;
+    }
+
+    .dishu li .quan {
+        width: 100%;
+        padding-bottom: 30%;
+        background-image: linear-gradient(to bottom, #005427, #000);
+        border-radius: 100%;
+        box-shadow: inset 0 1vw #00632e;
+        position: relative;
+    }
+
+    .dishu li .quan .mark {
+        content: '';
+        position: absolute;
+        width: 120%;
+        height: 300%;
+        left: 50%;
+        bottom: 0%;
+        transform: translateX(-50%);
+        border-radius: 0 0 40% 40%;
+        overflow: hidden;
+    }
+
+    .dishu li .quan .mark .pa {
+        position: absolute;
+        width: 50%;
+        padding-bottom: 42%;
+        background: url(src/pa.png);
+        background-size: contain;
+        right: 0%;
+        margin-right: 20%;
+        animation-name: pa;
+        animation-fill-mode: both;
+
+    }
+
+    .animated {
+        animation-duration: .2s;
+    }
+
+    @keyframes pa {
+        0% {
+            transform: scale(0);
+        }
+
+        50% {
+            transform: scale(1);
+        }
+
+        100% {
+            transform: scale(0);
+        }
+    }
+
+    @keyframes dong {
+        0% {
+            transform-origin: center bottom;
+            transform: scaleY(1);
+        }
+
+        50% {
+            transform-origin: center bottom;
+            transform: scaleY(.8);
+        }
+
+        100% {
+            transform-origin: center bottom;
+            transform: scaleY(1);
+        }
+    }
+
+    .dishu li .quan .mark .shu {
+        width: 50%;
+        padding-bottom: 84%;
+        background: url(src/shu.png);
+        background-size: contain;
+        position: absolute;
+        left: 50%;
+        bottom: -20%;
+        margin-left: -25%;
+        transition: all .4s cubic-bezier(0.77, 0, 0.175, 1);
+
+
+    }
+
+    .dishu li .quan .mark .shu.dong {
+        animation-name: dong;
+        animation-fill-mode: both;
+        animation-duration: .2s;
+    }
+
+    .my-enter,
+    .my-leave-to {
+        transform: translateY(90%) scale(.4);
+        opacity: 0;
+    }
+
+    .my-leave,
+    .my-enter-to {
+        transform: translateY(0%);
+    }
+    .fade-enter,
+    .fade-leave-to {
+        opacity: 0;
+    }
+
+    .fade-leave,
+    .fade-enter-to {
+        opacity: 1
+    }
+    .scale-enter,
+    .scale-leave-to {
+        opacity: 0;
+        transform:  translateY(-100vh);
+    }
+
+    .scale-leave,
+    .scale-enter-to {
+        opacity: 1;
+        transform:  translateY(0);
+    }
+
+    .zmark {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        z-index: 4;
+        left: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, .8);
+        transition: all .4s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .wintip {
+        width: 450px;height: 320px;z-index: 5;position: fixed;
+        background-image: radial-gradient(#fef0d3, #f3dbaf);
+        left: 50%;top: 50%;margin-left: -225px;margin-top: -160px;
+        border:solid 12px #ebb964;border-radius: 24px;
+        box-shadow: 0 0 0px 6px #9a5a3f;transition: all .4s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    .wintip h1{font-size: 44px;line-height: 44px;display: block;text-align: center;margin:44px 0 24px;}
+    .wintip h2{text-align: center;margin:0px 0 24px;}
+    .wintip .ok{color: #2ac213}
+    .wintip .err{color: #ff3c00}
+    </style>
+</head>
+
+<body>
+    <div class="dishu">
+        <transition name="scale">
+        <div class="wintip"  v-if="!begin" v-cloak>
+            <h1 class="ok" v-if="score>=20">恭喜你！</h1>
+            <h1 class="err" v-else>很遗憾！没通过</h1>
+            <h2>你最终得分：{{score}}</h1>
+            <div class="begin" v-cloak @click="ks()">再来</div>
+        </div>
+       </transition>
+        <transition name="fade">
+        <div class="zmark"  v-if="!begin"></div>
+        </transition>
+        <div class="score">得分：<i>{{score}}</i><br>目标分：<i>20</i><br>剩余时间：<i>{{lefttime}}s</i></div>
+        <ul>
+            <li v-for="(item,inx) in num">
+                <div class="quan">
+                    <div class="mark">
+                        <transition name="my">
+                            <div class="shu" v-if="who==inx" v-cloak @click="pa(inx)" :class="{dong:whichpp==inx}"></div>
+                        </transition>
+                        <div class="pa" v-if="whichpp==inx" :class="{animated:whichpp==inx}" v-cloak></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script>
+    "use strict";new Vue({el:".dishu",data:{num:9,who:-1,score:0,whichpp:-1,begin:!1,lefttime:60,st:"",stt:""},mounted:function(){},computed:{},watch:{lefttime:{immediate:!0,handler:function(t){t<=0&&(this.begin=!1,clearInterval(this.st),clearInterval(this.stt))}}},filters:{tofix:function(t){return t=Number(t).toFixed(2)}},methods:{pa:function(t){var i=this;this.score++,this.whichpp=t,setTimeout(function(){return i.whichpp=-1},200)},fun:function(){this.st=setInterval(this.getRnd,800)},getRnd:function(){var t=Math.round(8*Math.random());this.who=t,this.whichpp=-1},ks:function(){this.begin=!0,this.fun(),this.redu(),this.lefttime=60,this.score=0},redu:function(){var t=this;this.stt=setInterval(function(){--t.lefttime<=0&&(t.lefttime=0)},1e3)}}});
+    </script>
+</body>
+
+</html>

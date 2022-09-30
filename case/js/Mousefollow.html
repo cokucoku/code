@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>【实例】鼠标跟随</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app"></div>
+<script type="text/javascript">
+"use strict";var num=20,op=1,sc=1,rd=1,qiu=function(t){var e=this,s=null;this.target=document.createElement("img"),this.target.src="src/smile.png",this.posX=window.innerWidth/2,this.posY=window.innerHeight/2,this.target.style.cssText="position:absolute;left:"+this.posX+"px;top:"+this.posY+"px;",this.target.style.opacity=op,this.target.style.transform="scale("+sc+")",this.target.style.setProperty("--rd",rd),op-=1/num*1.02,sc-=1/num*.6,rd*=.9;var r=document.getElementById(t.substr(1)),n=r.firstChild;r.insertBefore(this.target,n),document.addEventListener("mousemove",function(t){clearInterval(s);var r=t.pageX-e.target.offsetWidth/2,n=t.pageY-e.target.offsetHeight/2;s=setInterval(function(){var t=(r-e.posX)/60*e.target.style.getPropertyValue("--rd"),o=(n-e.posY)/60*e.target.style.getPropertyValue("--rd");e.posX+=t,e.posY+=o,e.target.style.left=e.posX+"px",e.target.style.top=e.posY+"px",0==t&&0==o&&clearInterval(s)},2)})};setInterval(function(){Array.from(document.getElementById("app").children).length>=num||new qiu("#app")},2);
+
+</script>
+</body>
+
+</html>

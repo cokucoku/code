@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>vue.jss</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+
+<body>
+    <style>
+        * {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: #333;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+    }
+
+    #app {
+        position: relative;
+        width: 400px;
+        height: 400px;
+        margin: 200px auto 0;
+        display: block;
+        box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .quan {
+        border: solid 2px rgba(255, 255, 255, .5);
+        border-radius: 100%;
+        width: 80px;
+        height: 80px;
+        margin: 40px 0 0 40px;
+        float: left;
+        transition: all .4s;
+        position: relative;
+    }
+    .quan .wz{position: absolute;color: #fff;width: 100%;height: 100%;line-height: 20px;text-align: center;}
+
+    .quansm {
+        border-radius: 100%;
+        width: 24px;
+        height: 24px;
+        background: rgb(0, 180, 106);
+        margin: 26px;
+        transition: all .4s;
+
+    }
+
+    .quan.active {
+        border: solid 2px rgba(0, 180, 106, 1);
+        background: rgba(0, 0, 0, .3);
+        box-shadow: 0 0 4px rgba(0, 180, 106, 1);
+    }
+
+    .quan.error {
+        border: solid 2px rgba(229, 97, 24, 1);
+        background: rgba(0, 0, 0, .3);
+        box-shadow: 0 0 4px rgba(229, 97, 24, 1);
+    }
+
+    .quan.error .quansm {
+        background: rgba(229, 97, 24, 1);
+    }
+    .ms{color: #fff;width: 100%;position: absolute;}
+
+    .tips {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        margin-left: -50px;
+        margin-top: -150px;
+        text-align: center;
+        line-height: 100px;
+        color: #fff;
+        width: 100px;
+        height: 100px;
+        background: rgba(0, 0, 0, .8);
+        border-radius: 14px;
+
+    }
+
+    .shake {
+        animation: shake .2s linear;
+    }
+
+    @keyframes shake {
+
+        0%,
+        50%,
+        100% {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0)
+        }
+
+        25% {
+            -webkit-transform: translate3d(-80px, 0, 0);
+            transform: translate3d(-80px, 0, 0)
+        }
+
+        75% {
+            -webkit-transform: translate3d(80px, 0, 0);
+            transform: translate3d(80px, 0, 0)
+        }
+    }
+
+    .my-enter-active,
+    .my-leave-active {
+        transition: all .2s ease
+    }
+
+    .my-enter {
+        opacity: 0;
+        transform: scale(.6);
+    }
+
+    .my-enter-to {
+        opacity: 1;
+
+    }
+
+    .my-leave {
+        opacity: 1;
+
+    }
+
+    .my-leave-to {
+        opacity: 0;
+        transform: scale(.6);
+    }
+    </style>
+    <div id="apps">
+        <transition name="my">
+            <div class="tips" v-if="check!=0">
+                <span v-if="check==1">密碼正確！</span>
+                <span v-else="check==-1">密碼錯誤！</span>
+            </div>
+        </transition>
+        <div id="app" @mousedown.prevent="mud" @mouseup.prevent="mup" @mouseleave.prevent="mul" :class={shake:check==-1}>
+            <div class="quan" :class={active:quan[inx]!=0,error:check==-1&&quan[inx]!=0} v-for="(item,inx) in num" @mousedown.stop="mousedown(inx)" @mouseup.stop="mouseup(inx)" @mousemove.stop="mousemove(inx)">
+                <div class="quansm" v-if="quan[inx]>0"></div>
+            </div>
+            <div class="ms">正确密码：N字形</div>
+        </div>
+    </div>
+    <script src="http://libs.baidu.com/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script type="text/javascript">
+    "use strict";new Vue({el:"#apps",data:{num:9,quan:[0,0,0,0,0,0,0,0,0],quanxy:[],tempass:[],xh:[],check:0,down:!1,pass:[1,4,7,5,3,6,9]},mounted:function(){for(var t=this,s=0;s<9;s++){var e=document.getElementsByClassName("quan")[s].offsetLeft,n=document.getElementsByClassName("quan")[s].offsetTop;this.quanxy.push({x:e,y:n})}document.addEventListener("touchstart",function(s){t.down=!0;var e=s.touches[0].clientX-document.getElementById("app").offsetLeft,n=s.touches[0].clientY-document.getElementById("app").offsetTop;t.markdot(e,n)},{passive:!1}),document.addEventListener("touchmove",function(s){var e=s.touches[0].clientX-document.getElementById("app").offsetLeft,n=s.touches[0].clientY-document.getElementById("app").offsetTop;t.markdot(e,n)},{passive:!1}),document.addEventListener("touchend",function(s){t.down=!1,t.checkpass()},{passive:!1})},watch:{tempass:{immediate:!0,handler:function(t){console.log(t)}}},methods:{markdot:function(t,s){var e=this,n=[];this.quanxy.map(function(e,i){n.push({ix:i,x:t-e.x,y:s-e.y})});var i,o=n.filter(function(t,s){return t.x<80&&t.x>0&&t.y<80&&t.y>0});o.length>0&&(i=o[0].ix,this.xh.indexOf(i)<0&&(this.xh.push(i),this.tempass.push(i+1))),this.xh.map(function(t,s){e.$set(e.quan,t,1)})},mul:function(){this.down&&this.checkpass(),this.down=!1},mud:function(){this.down=!0},mup:function(){this.down=!1,this.checkpass()},mousedown:function(t){this.down=!0,this.$set(this.quan,t,1),this.tempass.push(t+1)},mouseup:function(t){this.down=!1,this.checkpass()},mousemove:function(t){this.down&&0==this.quan[t]&&(this.$set(this.quan,t,1),this.tempass.push(t+1))},checkpass:function(){var t=this;this.tempass.toString()==this.pass.toString()?(this.check=1,setTimeout(function(){t.reset()},2e3)):(this.check=-1,setTimeout(function(){t.reset()},2e3))},reset:function(){this.check=0,this.tempass=[],this.xh=[];for(var t=0;t<this.quan.length;t++)this.$set(this.quan,t,0)}}});
+    </script>
+</body>
+
+</html>

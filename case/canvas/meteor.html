@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>canvas 流星</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            /*background: url("src/xk.jpg") center;*/
+            background-size: cover;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<canvas id="my">
+
+</canvas>
+
+<script type="text/javascript">
+  let c = document.getElementById('my');
+    c.width = window.innerWidth;
+    c.height = window.innerHeight;
+    let ctx = c.getContext('2d');
+    let myimg = new Image();
+    myimg.src = "src/xk.jpg";
+    function meteor() {//流星对象
+        this.length = Math.random() * 128 + 18;//流星长度
+        this.thick = Math.random() * 1 + 2;//流星长度
+        this.x = Math.random() * c.width;
+        this.y = Math.random() * c.height;
+        this.speed = Math.random() * 12 + 1.8;
+    }
+
+    meteor.prototype.dong = function () {
+        ctx.restore();
+        ctx.shadowBlur = 4;
+        ctx.shadowColor = "#ff00fc";
+        ctx.globalCompositeOperation = "lighter";
+        //等邊直角三角形邊長a²+b²=c²
+        //a=b,c=this.length所以2*a²=this.length²
+        //let a = Math.sqrt(this.length * this.length / 2);
+        //如果是垂直65度的画
+        //工式为:a(y)=cos65*this.length b(x)=sin65*this.length
+        let a = Math.cos(2 * Math.PI / 360 * 55) * this.length;
+        let b = Math.sin(2 * Math.PI / 360 * 55) * this.length;
+        this.x -= this.speed;
+        if (this.x < 0) {
+            this.x = Math.random() * c.width;
+            this.y = -Math.random() * 14 - this.length;
+        }
+        this.y += this.speed*Math.tanh(2 * Math.PI / 360 * 55);
+        ctx.beginPath();
+        //ctx.fillStyle="#ff00fc";
+        let grdr = ctx.createRadialGradient(this.x - b, this.y + a,0,this.x - b, this.y + a,this.length/14);
+        grdr.addColorStop(0, '#ff00fc');
+        grdr.addColorStop(1, 'transparent');
+        ctx.fillStyle=grdr;
+        ctx.arc(this.x - b, this.y + a,this.length/14,0,2*Math.PI);
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        let grd = ctx.createLinearGradient(this.x - b, this.y + a, this.x, this.y);
+        grd.addColorStop(0, '#ffebef');
+        grd.addColorStop(1, 'transparent');
+        ctx.lineWidth = this.thick;
+        ctx.lineJoin = "round";
+        ctx.strokeStyle = grd;
+        ctx.lineTo(this.x, this.y);
+        ctx.lineTo(this.x - b, this.y + a);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.save();
+    }
+    let meteors = [];
+    for (let i = 0; i < 12; i++) {
+        meteors[i] = new meteor();
+    }
+
+    dong();
+
+    function dong() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        //背景圖
+        ctx.restore();
+        ctx.shadowBlur = 0;
+        //ctx.drawImage(myimg, 0, 0, myimg.width, myimg.height, -(myimg.width-c.width)/2, -(myimg.height-c.height)/2, c.width+(myimg.width-c.width)/2, c.height+(myimg.height-c.height)/2);
+        ctx.drawImage(myimg, 0, 0, c.width, c.height, 0, 0, c.width, c.height);
+        ctx.save();
+        //月亮
+        ctx.restore();
+        ctx.shadowBlur = 18;
+        ctx.shadowColor = "#fffc90";
+        ctx.globalCompositeOperation = "source-over";
+        let grd = ctx.createRadialGradient(c.width/2, 200,0,c.width/2, 200,45);
+        grd.addColorStop(0, '#fffcc2');
+        grd.addColorStop(1, '#fffc90');
+        ctx.fillStyle=grd;
+        ctx.beginPath();
+        ctx.arc(c.width/2,200,45,0,2*Math.PI);
+        ctx.closePath();
+        ctx.fill()
+        ctx.save();
+        for (let i in meteors) {
+            meteors[i].dong();
+        }
+        requestAnimationFrame(dong);
+    }
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <title>【实例】抛物线运动</title>
+</head>
+
+<body>
+<div class="btns">
+    <div class="btn" id="b1">打房子</div>
+    <div class="btn" id="b2">打小船</div>
+    <div class="btn" id="b3">打飞机</div>
+</div>
+<div class="ball" id="ball"></div>
+<div class="pao" id="pao">
+</div>
+<div class="fz" id="fz"></div>
+<div class="fj" id="fj"></div>
+<div class="bost" id="bost">
+    <div class="bostb"></div>
+</div>
+<div class="di"></div>
+<div class="hai"></div>
+<div class="sky">
+    <div class="yun">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</div>
+<style>
+    .yun{
+        position: relative;
+        left: 50%;
+        top: 20%;
+    }
+    .yun span{
+        position: absolute;
+        width: 40px;
+        height: 40px;border-radius: 100%;
+        background-color: #fff;
+    }
+    .yun span:nth-child(1){
+        transform: translateX(-50%) translateY(50%);
+    }
+    .yun span:nth-child(2){
+        transform: translateX(50%) translateY(50%);
+    }
+    .yun span:nth-child(3){
+        transform: translateX(0%) translateY(50%);
+    }
+
+    .sky{
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 1;}
+    * {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        box-sizing: border-box;
+    }
+
+    .shake {
+        animation: shake 4s both ease-in;
+    }
+
+    @keyframes shake {
+        100% {
+            transform: translateY(100vh) rotate(360deg);
+        }
+
+    }
+
+
+    body {
+        height: 100vh;
+        background-image: linear-gradient(#17A1FF, #72c5fe73 80%);
+        overflow: hidden;
+    }
+
+    .btns {
+        display: flex;
+        position: fixed;
+        flex-direction: column;
+        left: 40px;
+        top: 40px;
+        z-index: 3;
+    }
+
+    .btn {
+        background: #fff;
+        border-radius: 12px;
+        height: 34px;
+        width: 120px;
+        text-align: center;
+        line-height: 34px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .btn.cur {
+        background: #3DB060;
+        color: #fff;
+    }
+
+    .btn.cur:before {
+        content: '✔';
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        border-radius: 100%;
+        background: #fff;
+        left: 10px;
+        top: 50%;
+        margin-top: -11px;
+        color: #3DB060;
+        line-height: 22px;
+    }
+
+    .di {
+        position: fixed;
+        bottom: 0;
+        width: 100vw;
+        height: 120px;
+        background-image: linear-gradient(#3DB060, #4b7e3f);
+        z-index: 12;
+    }
+
+    .ball {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-image: radial-gradient(#729d68 10%, #4b7e3f);
+        border-radius: 100%;
+        z-index: 9;
+    }
+
+    .pao {
+        position: fixed;
+        bottom: 122px;
+        left: 20px;
+        width: 80px;
+        height: 65px;
+        background: url(src/pao.png) no-repeat;
+        background-size: cover;
+        z-index: 3;
+        transition: all .4s;
+        transform-origin: center;
+    }
+
+    .fj {
+        position: fixed;
+        top: 122px;
+        right: 320px;
+        width: 100px;
+        height: 66px;
+        background: url(src/fj.png) no-repeat;
+        background-size: cover;
+        z-index: 3;
+    }
+
+    .fz {
+        position: fixed;
+        bottom: 120px;
+        right: 20px;
+        width: 300px;
+        height: 176px;
+        background: url(src/fz.png) no-repeat;
+        background-size: cover;
+        z-index: 3;
+    }
+
+    .bost {
+        position: fixed;
+        bottom: 380px;
+        left: 100%;
+        width: 68px;
+        height: 34px;
+        z-index: 3;
+        animation: hua 85s linear infinite;
+    }
+    .bostb {
+        width: 68px;
+        height: 34px;
+        background: url(src/bost.png) no-repeat;
+        background-size: cover;
+        animation: cf 1s ease-in-out infinite;
+    }
+
+    @keyframes hua {
+        100% {
+            left: 0;
+        }
+    }
+    @keyframes cf {
+        25% {
+            transform: translateY(5%);
+        }
+        50% {
+            transform: translateY(0%);
+        }
+        75% {
+            transform: translateY(-5%);
+        }
+        100% {
+            transform: translateY(0%);
+        }
+    }
+
+    .hai {
+        position: fixed;
+        width: 100vw;
+        height: 400px;
+        bottom: 0;
+        background-image: radial-gradient(#92e4f9, #26c2f2);
+        z-index: 2;
+    }
+
+
+</style>
+<script src="parabola.js"></script>
+<script>
+   "use strict";var b1=document.getElementById("b1"),b2=document.getElementById("b2"),b3=document.getElementById("b3"),ball=document.getElementById("ball"),pao=document.getElementById("pao");ball.style.cssText="left:"+(pao.offsetLeft+80)+"px;top:"+pao.offsetTop+"px;";var x=pao.offsetLeft,ro=0;document.addEventListener("keydown",function(t){switch(t.keyCode){case 39:x+=14;break;case 37:x-=14;break;case 38:ro-=6;break;case 40:ro+=6}x>=620&&(x=620),x<=-20&&(x=-20),ro>=30&&(ro=30),ro<=-20&&(ro=-20),pao.style.cssText="transform:rotate("+ro+"deg);left:"+x+"px;",ball.style.cssText="left:"+(pao.offsetLeft+80)+"px;top:"+pao.offsetTop+"px;"}),b1.addEventListener("click",function(){var t=this;new parabola({el:ball,target:"#fz",curvature:6e-4,success:function(e){"ok"==e.status&&(document.getElementById("fz").classList.add(e.class),t.classList.add("cur"),setTimeout(function(){ball.style.cssText="left:"+(pao.offsetLeft+80)+"px;top:"+pao.offsetTop+"px;"},400))}}).move()}),b2.addEventListener("click",function(){var t=this;new parabola({el:ball,target:"#bost",success:function(e){"ok"==e.status&&(document.getElementById("bost").classList.add(e.class),t.classList.add("cur"),setTimeout(function(){ball.style.cssText="left:"+(pao.offsetLeft+80)+"px;top:"+pao.offsetTop+"px;"},400))}}).move()}),b3.addEventListener("click",function(){var t=this;new parabola({el:ball,target:"#fj",success:function(e){"ok"==e.status&&(document.getElementById("fj").classList.add(e.class),t.classList.add("cur"),setTimeout(function(){ball.style.cssText="left:"+(pao.offsetLeft+80)+"px;top:"+pao.offsetTop+"px;"},400))}}).move()});
+
+</script>
+</body>
+
+</html>

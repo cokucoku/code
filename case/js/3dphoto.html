@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <title>【实例】仿阅文</title>
+</head>
+
+<body>
+<div id="bookShow" class="bookShow">
+</div>
+<script>
+
+</script>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        box-sizing: border-box;
+    }
+
+    body {
+        height: 100vh;
+        background-color: rgba(31, 33, 35, .8);
+        overflow: hidden;
+
+    }
+
+    .bookShow {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+        transform-style: preserve-3d;
+        perspective: 3000px;
+        transform: rotateX(-8deg);
+
+    }
+
+    .bookShow img {
+        width: 197px;
+        height: 262px;
+        object-fit: cover;
+        position: absolute;
+        transition: .1s ease-in-out;
+        left: calc(50% - 98px);
+        top: calc(50% - 131px);
+        border-radius: 6px;box-shadow: 0 6px 16px rgba(0, 0, 0, .5);
+    }
+
+
+</style>
+<script>
+ "use strict";function pic(t){this.deg=per*xh,this.src="src/yuewen/"+(xh+1)+".jpg",this.x=r*Math.cos(Math.PI/180*this.deg),this.z=r*Math.sin(Math.PI/180*this.deg),this.opa=(this.z+r)/(2*r)+.1,this.xh=xh,this.target=document.createElement("img"),this.target.src=this.src;var e=t.el.substring(0,1),s=t.el.substring(1);"#"==e?document.getElementById(s).appendChild(this.target):document.getElementsByClassName(s)[0].appendChild(this.target),xh++,this.target.style.cssText="-webkit-box-reflect: below 5px linear-gradient(0deg, rgba(0, 0, 0,.2), transparent 30%);opacity:"+this.opa+";transform:scale(1) translateX("+this.x+"px) translateZ("+this.z+"px)"}var xh=0,r=600,per=24;pic.prototype.rotate=function(){this.deg+=1,this.deg,this.x=r*Math.cos(Math.PI/180*this.deg),this.z=r*Math.sin(Math.PI/180*this.deg),this.opa=(this.z+r)/(2*r)+.1,this.target.style.cssText="-webkit-box-reflect: below 5px linear-gradient(0deg, rgba(0, 0, 0,.2), transparent 30%);opacity:"+this.opa+";transform:scale(1) translateX("+this.x+"px) translateZ("+this.z+"px)"};for(var pi=[],i=0;i<15;i++)pi[i]=new pic({el:"#bookShow"});setInterval(function(){for(var t=0;t<15;t++)pi[t].rotate()},100);var body=document.body,bookShow=document.getElementById("bookShow");body.addEventListener("mousemove",function(t){var e=t.pageY,s=t.pageX,i=window.innerHeight/2,r=(i-e)/i*10,a=s/window.innerWidth*2e3;bookShow.style.cssText="transform: rotateX("+r+"deg);perspective:"+a+"px"});
+
+
+</script>
+</body>
+
+</html>

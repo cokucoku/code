@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>canvas 心型</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background-size: cover;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<canvas id="my">
+</canvas>
+
+<script type="text/javascript">
+    "use strict";function dong(){deg+=1,ctx.clearRect(-c.width/2,-c.height/2,c.width,c.height),ctx.lineWidth=4;var t=300*Math.sin(deg*Math.PI/180)*Math.sin(deg*Math.PI/180)*Math.sin(deg*Math.PI/180),e=-20*(15*Math.cos(deg*Math.PI/180)-4*Math.cos(2*deg*Math.PI/180)-2*Math.cos(3*deg*Math.PI/180)-Math.cos(4*deg*Math.PI/180));ctx.strokeStyle="#fff",ctx.lineTo(t,e),ctx.stroke(),deg>=360&&(op+=.01,ctx.fillStyle="rgba(255,0,0,"+op.toFixed(2)+")",ctx.fill(),op>=1)||requestAnimationFrame(dong)}var c=document.getElementById("my");c.width=window.innerWidth,c.height=window.innerHeight,c.style.backgroundColor="#000";var ctx=c.getContext("2d");ctx.translate(c.width/2,c.height/2);var deg=0,radius=100,op=0;dong();
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>🐏动</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+
+<body>
+    <div id="app"></div>
+    <script type="text/javascript">
+       "use strict";var sheep=function(){var t=this;this.movex=window.innerWidth,this.movey=window.innerHeight-230,this.speed=Math.round(13*Math.random())+2,this.pxh=0,this.target=document.createElement("div"),this.target.className="sheep",document.getElementById("app").appendChild(this.target),this.target.style.transform="translate3d("+this.movex+"px,"+this.movey+"px,0)",this.down=!1,this.target.addEventListener("mousedown",function(e){t.down=!0}),this.target.addEventListener("mouseup",function(){t.down=!1,t.down=!1;var e=setInterval(function(){var n=749-t.movey,o=Math.ceil(n/10);t.movey+=o,t.target.style.transform="translate3d("+t.movex+"px,"+t.movey+"px,0)",0===o&&clearInterval(e)},20)}),document.addEventListener("mouseup",function(){t.down=!1;var e=setInterval(function(){var n=749-t.movey,o=Math.ceil(n/8);t.movey+=o,t.target.style.transform="translate3d("+t.movex+"px,"+t.movey+"px,0)",0===o&&clearInterval(e)},20)}),document.addEventListener("mousemove",function(e){if(e.preventDefault(),t.down){var n=e.pageX-t.target.offsetWidth/2,o=e.pageY-t.target.offsetHeight/2;t.movex=n,t.movey=o,t.target.style.transform="translate3d("+t.movex+"px,"+t.movey+"px,0)"}})};sheep.prototype.run=function(){var t=this;setInterval(function(){t.dong(),t.down||t.move()},80)},sheep.prototype.dong=function(){this.pxh++;var t=[-164,-328,-492,-656,-820,-984,-1148];this.pxh>t.length-1&&(this.pxh=0);var e=t[this.pxh],n=this.down?-127:0;this.target.style.backgroundPosition=e+"px "+n+"px"},sheep.prototype.move=function(){if(this.movex-=this.speed,this.movex<-154){Array.from(document.getElementById("app").children).indexOf(this.target)>-1&&this.target.parentNode.removeChild(this.target)}this.target.style.transform="translate3d("+this.movex+"px,"+this.movey+"px,0)"},setInterval(function(){Array.from(document.getElementById("app").children).length>5||(new sheep).run()},1e3);
+    </script>
+    <style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: skyblue
+    }
+
+    #app {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;cursor: url(src/hand-pick.cur),move;
+    }
+
+    .sheep {
+        width: 154px;
+        height: 117px;
+        top: 0;
+        left: 0;
+        position: absolute;
+        background-image: url(src/sheep-ani.png)
+    }
+    </style>
+</body>
+
+</html>

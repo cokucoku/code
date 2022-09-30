@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>【实例】发射图片</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+
+<body>
+<div id="app">
+</div>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        box-sizing: border-box;
+    }
+
+    body {
+        overflow: hidden;
+        background-color: #000;
+    }
+
+
+    #app {
+        height: 100vh;
+        perspective: 20px;
+        transform-style: preserve-3d;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+
+</style>
+<script type="text/javascript">
+    "use strict";function autoRun(){Array.from(document.getElementById("app").children).length>=picNum||new movePic("#app").dong()}var picNum=58,movePic=function(t){var e=this,o=(document.documentElement.offsetHeight,document.documentElement.offsetWidth,Math.random()>.5?1:-1),n=Math.random()>.5?1:-1,r=Math.floor(25*Math.random())+1;this.tx=o*Math.random()*16,this.ty=n*Math.random()*8,this.tz=10,this.ov=!1,this.moveX=0,this.moveZ=-1900-1900*Math.random(),this.moveY=0,this.target=document.createElement("img"),this.target.src="src/ren/ren"+r+".jpg",this.target.style.cssText="filter:blur(-11px);box-shadow:0 0 13px rgba(0,0,0,.6);position:absolute;transform:translate3d("+this.moveX+"px,"+this.moveY+"px,"+this.moveZ+"px)";var a=document.getElementById(t.substr(1)),i=a.firstChild;a.insertBefore(this.target,i),this.target.addEventListener("mouseenter",function(t){e.ov=!0}),this.target.addEventListener("mouseleave",function(t){e.ov=!1})};movePic.prototype.dong=function(){var t=this;setInterval(function(){t.ov||(t.moveX+=t.tx,t.moveY+=t.ty,t.moveZ+=t.tz),t.target.style.transform="translate3d("+t.moveX+"px,"+t.moveY+"px,"+t.moveZ+"px)",t.moveZ>50&&t.target.remove()},20)};var timer=setInterval(autoRun,2);window.onfocus=function(){timer=setInterval(autoRun,2)},window.onblur=function(){clearInterval(timer)};
+</script>
+</body>
+
+</html>

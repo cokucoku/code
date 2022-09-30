@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>【实例】轮胎运动-持续</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+
+<body>
+<div class="line"></div>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        box-sizing: border-box;
+    }
+
+    body {
+        overflow: hidden;
+    }
+
+    .line {
+        position: absolute;
+        top: 800px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 800px);
+        background: linear-gradient(0deg, #000, #666);
+    }
+
+
+</style>
+<script type="text/javascript">
+"use strict";var lun=function(){var t=this;this.target=document.createElement("img"),this.target.src="src/lt.png",this.posX,this.ro=0,this.posY=620,this.moveX=1.4,this.ros=1,this.target.onload=function(){t.posX=window.innerWidth,t.target.style.cssText="cursor:pointer;position:absolute;transform:rotate("+t.ro+"deg);left:"+t.posX+"px;top:"+t.posY+"px;",document.body.appendChild(t.target),t.down=!1,t.target.addEventListener("mousedown",function(e){e.preventDefault(),t.down=!0}),t.target.addEventListener("mouseup",function(){t.down=!1;var e=setInterval(function(){var o=620-t.posY,s=o>0?Math.ceil(o/10):Math.floor(o/10);t.posY+=s,t.target.style.left=t.posX+"px",t.target.style.top=t.posY+"px",0===s&&clearInterval(e)},20)}),document.addEventListener("mouseup",function(){t.down=!1;var e=setInterval(function(){var o=620-t.posY,s=o>0?Math.ceil(o/10):Math.floor(o/10);t.posY+=s,t.target.style.left=t.posX+"px",t.target.style.top=t.posY+"px",0===s&&clearInterval(e)},20)}),document.addEventListener("mousemove",function(e){e.preventDefault(),t.down&&(t.posX=e.pageX-t.target.offsetWidth/2,t.posY=e.pageY-t.target.offsetHeight/2,t.target.style.left=t.posX+"px",t.target.style.top=t.posY+"px")})}};lun.prototype.rotate=function(){this.ro-=this.ros,this.target.style.transform="rotate("+this.ro+"deg)"},lun.prototype.move=function(){this.posX-=this.moveX,this.target.style.left=this.posX+"px",this.posX<=-this.target.width&&(this.posX=window.innerWidth)},lun.prototype.run=function(){var t=this;setInterval(function(){t.down||(t.move(),t.rotate())},1)};var moveLun=new lun;moveLun.run();
+
+</script>
+</body>
+
+</html>

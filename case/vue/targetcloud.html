@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>[实战]38-标签云</title>
+</head>
+
+<body>
+    <style type="text/css" media="screen">
+    * {
+        margin: 0px;
+        padding: 0;
+        list-style: none
+    }
+
+    body {
+        background: floralwhite
+    }
+
+    .app {
+        width: 350px;
+        /*height: 160px;*/
+        margin: 20px auto;
+        text-align: center;
+        /*border:solid 1px #dedede;*/
+    }
+
+    ul {
+        width: 78%;
+        height: 100%;
+        margin: 0 auto;
+    }
+
+    ul li {
+        padding: 5px 10px;
+        display: inline-block;transition: transform 2s;
+    }
+
+    ul li:nth-child(1),
+    ul li:nth-child(5) {
+        vertical-align: top;
+    }
+    </style>
+    <div class="app">
+        <transition-group name="flip-list" tag="ul">
+            <li v-for="item in tag" :key="item.t" :style="{color:item.color,fontSize:item.size+'px'}">{{item.t}}</li>
+        </transition-group>
+        <button @click="sj">随机</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+
+    <script>
+    "use strict";var tag=[{t:"春天",size:16,color:"#3ee9c3"},{t:"秋天",size:28,color:"#2599fc"},{t:"玉米",size:16,color:"#22bdd9"},{t:"西瓜",size:18,color:"#bbc3ca"},{t:"剪刀",size:20,color:"#2599fc"},{t:"瓶子",size:30,color:"#8278eb"},{t:"戏骨",size:26,color:"#909db2"},{t:"秒针",size:18,color:"#22bdd9"},{t:"低调",size:18,color:"#8278eb"},{t:"善良",size:16,color:"#5053cd"},{t:"校长",size:20,color:"#8278eb"},{t:"灯",size:15,color:"#f899b3"},{t:"力量",size:14,color:"#e29cd8"},{t:"出众",size:14,color:"#3ee9c3"},{t:"真诚",size:18,color:"#f899b3"},{t:"稳重",size:15,color:"#909db2"}],tag1=[{t:"春天"},{t:"秋天"},{t:"玉米"},{t:"西瓜"},{t:"剪刀"},{t:"瓶子"},{t:"戏骨"},{t:"秒针"},{t:"低调"},{t:"善良"},{t:"校长"},{t:"灯"},{t:"力量"},{t:"出众"},{t:"真诚"},{t:"稳重"}];new Vue({el:".app",data:{tag:[]},mounted:function(){var t=this;this.tag=tag1,this.tag.map(function(o,e){var r=Math.floor(14*(Math.random()+1)+2*Math.random());t.$set(o,"size",r),t.$set(o,"color",t.color())})},methods:{shuffle:function(t){for(var o,e,r=t.length;r;)e=Math.floor(Math.random()*r--),o=t[r],t[r]=t[e],t[e]=o;return t},sj:function(){this.tag=_.shuffle(this.tag)},color:function(){return"rgb("+Math.floor(255*Math.random())+","+Math.floor(255*Math.random())+","+Math.floor(255*Math.random())+" )"}},computed:{},watch:{keyword:{immediate:!0,handler:function(t){}}}});
+    </script>
+</body>
+
+</html>

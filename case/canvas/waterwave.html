@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>水波</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+</head>
+<body>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        overflow: hidden
+    }
+</style>
+
+
+<script>
+    let c = document.createElement('canvas')
+    c.width = window.innerWidth
+    c.height = window.innerHeight
+    document.body.appendChild(c)
+    let ctx = c.getContext('2d')
+    let offsetY = c.height - 200;
+    let dots = [];
+
+    //場景佈局
+    function dot(theta) {
+        this.cx = 1000 * theta;
+        this.theta = theta;
+        this.r=Math.random()*40+10
+    }
+
+    dot.prototype.dong = function () {
+        this.theta += Math.PI / 1080;
+        this.cy = offsetY - 100 * Math.sin(8 * this.theta);
+        render()
+        ctx.beginPath();
+        ctx.fillStyle = 'red'
+        ctx.arc(this.cx, this.cy, this.r, 0, 2 * Math.PI)
+        ctx.closePath();
+        ctx.fill()
+
+
+    }
+
+    function render() {
+        ctx.restore();
+        ctx.beginPath()
+        ctx.strokeStyle = "green";
+        ctx.fillStyle = "green";
+        for (let i = 0; i < dots.length; i++) {
+            ctx.lineTo(dots[i].cx, dots[i].cy)
+        }
+        ctx.lineTo(dots[dots.length - 1].cx, c.height)
+        ctx.lineTo(0, c.height)
+        ctx.closePath()
+        ctx.fill()
+        ctx.save()
+    }
+
+    for (let theta = 0; theta <= Math.PI; theta += Math.PI / 90) {
+        dots.push(new dot(theta))
+    }
+    animate();
+
+    function animate() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        for (let i in dots) {
+            dots[i].dong()
+        }
+        requestAnimationFrame(animate)
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <title>【实例】仿阅文</title>
+</head>
+
+<body>
+<div class="yw-copyright">
+    <div id="bookShow" class="bookShow">
+    </div>
+</div>
+
+<script>
+
+</script>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #fff;
+
+    }
+
+    .bookShow {
+        width: 100%;
+        height: 524px;
+        position: relative;
+        transform-style: preserve-3d;
+        perspective: 2000px;
+        margin-top: 322px;
+    }
+
+    .bookShow img {
+        width: 197px;
+        height: 262px;
+        object-fit: cover;
+        position: absolute;
+        transition: .8s ease-in-out;
+        left: calc(50% - 98px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, .5);
+        border-radius: 6px;
+        filter: brightness(20%);
+    }
+
+    .bookShow img:hover {
+        filter: brightness(100%);
+    }
+
+
+    .yw-copyright {
+        height: 584px;
+        background-color: rgba(31, 33, 35, .8);
+        /*background-image: conic-gradient(#fff 25%,#eee 25% 50% ,#fff 50% 75% ,#eee 75% 100%);*/
+        background-size: 1% 3%;
+        overflow: hidden;
+    }
+
+
+</style>
+<script>
+   "use strict";function pic(t){var s=this;this.src="src/yuewen/"+(xh+1)+".jpg",this.x=150*(xh-7),this.b=100*Math.abs(Math.abs(this.x/150)-8)/8,this.z=-110*Math.abs(xh-7)+300,this.xh=xh,this.target=document.createElement("img"),this.target.src=this.src;var e=t.el.substring(0,1),i=t.el.substring(1);"#"==e?document.getElementById(i).appendChild(this.target):document.getElementsByClassName(i)[0].appendChild(this.target),xh++,setTimeout(function(){s.target.style.cssText="filter: brightness("+s.b+"%);transform: translateX("+s.x+"px) translateZ("+s.z+"px)"},16),this.target.addEventListener("click",function(){clearInterval(st);for(var t=Math.abs(s.x)/150,e=s.x<0?-1:1,i=0;i<15;i++)pi[i].dong(t*e);st=setInterval(function(){for(var t=0;t<15;t++)pi[t].dong(1)},3e3)})}var xh=0,st=null;pic.prototype.dong=function(t){this.x-=150*t,this.x<-1050?this.x+=2250:this.x>1050&&(this.x-=2250),this.z=-110*Math.abs(this.x/150)+300,this.b=100*Math.abs(Math.abs(this.x/150)-8)/8,this.target.style.cssText="filter: brightness("+this.b+"%);transform: translateX("+this.x+"px) translateZ("+this.z+"px)"};for(var pi=[],i=0;i<15;i++)pi[i]=new pic({el:"#bookShow"});st=setInterval(function(){for(var t=0;t<15;t++);},3e3);
+</script>
+</body>
+
+</html>

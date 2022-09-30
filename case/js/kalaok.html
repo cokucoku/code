@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <title>【实例】卡拉OK效果</title>
+</head>
+
+<body>
+<div class="t1">
+    <span time="1" content="恼">恼</span>
+    <span time="3" content="春">春</span>
+    <span time="4" content="风">风</span>
+</div>
+<div class="t2">
+    <span time="8" content="我">我</span>
+    <span time="9" content="心">心</span>
+    <span time="10" content="因">因</span>
+    <span time="11" content="何">何</span>
+    <span time="12" content="恼">恼</span>
+    <span time="14" content="春">春</span>
+    <span time="15" content="风">风</span>
+</div>
+<script>
+   "use strict";function check(n){for(var t=0;t<span.length;t++).001*n>=span[t].getAttribute("time")&&span[t].classList.add("cur")}var span=document.querySelectorAll("span");span=Array.from(span);var i=0,inner=setInterval(function(){i+=10,check(i)},1);
+
+
+</script>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+    }
+
+    body {
+        width: 100vw;
+        height: 100vh;
+        flex-direction: column;
+
+        background-color: #000;
+        display: flex;
+        justify-content: center;
+    }
+
+    span {
+        font-size: 66px;
+        padding: 0 25px;
+         -webkit-text-emphasis: transparent circle;
+        position: relative;color: #ccc;
+        font-weight: bold;
+    }
+    span:before{
+        content: attr(content);
+        position: absolute;
+         -webkit-text-emphasis: transparent circle;
+        width: 0px;
+        transition: all .4s;
+        overflow: hidden;
+    }
+    span.cur:before{
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: red;
+        width:66px;
+        -webkit-text-emphasis: red circle;
+    }
+
+    .t1 {
+        text-align: left;
+    }
+
+    .t2 {
+        text-align: right;
+    }
+
+</style>
+</body>
+
+</html>

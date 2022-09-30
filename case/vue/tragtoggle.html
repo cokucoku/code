@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>[实战]52拖动合并数字</title>
+    <style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        box-sizing: border-box;
+    }
+
+    .nums {
+        padding: 10px;
+        position: relative;
+    }
+
+    .ok {
+        position: absolute;
+        z-index: 3;
+        background-color: rgba(0, 0, 0, 1);
+        width: 90px;
+        height: 90px;
+        line-height: 90px;
+        text-align: center;
+        color: #fff;
+        transition: all .2s;
+        border-radius: 6px;
+    }
+
+    .nums li {
+        width: 80px;
+        height: 80px;
+        cursor: pointer;
+        border-radius: 6px;
+        border: solid 1px #ddd;
+        position: relative;
+        text-align: center;
+        line-height: 80px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        display: inline-block;
+        transition: all .2s
+    }
+
+    .nums li.ov {
+        border-color: #f60;
+    }
+
+    .nums li.gray i,
+    .nums li.gray {
+        background-color: #ddd
+    }
+
+    .nums li.green i,
+    .nums li.green {
+        background-color: green
+    }
+
+    .nums li.yellow i,
+    .nums li.yellow {
+        background-color: #fc0
+    }
+
+    .nums li i {
+        color: #fff;
+        line-height: 20px;
+        width: 20px;
+        height: 20px;
+        background-color: #f60;
+        border-radius: 100%;
+        text-align: center;
+        display: block;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        transform: translate(50%, -50%);
+        transition: all .4s
+    }
+
+    .nums .list-leave-active {
+        position: absolute;
+    }
+
+    .nums .list-enter,
+    .nums .list-leave-to {
+        opacity: 0;
+        transform: translateY(10%) scale(0);
+    }
+
+    .fade-enter,
+    .fade-leave-to {
+        opacity: 0;
+        transform: scaleY(0) scaleX(6);
+    }
+
+    .fade-enter-to,
+    .fade-leave {
+        opacity: 1;
+        transform: scale(1);
+    }
+    </style>
+</head>
+
+<body>
+    <div class="nums">
+        <transition name="fade">
+            <div class="ok" v-if="ok" :style="{left:okl+'px',top:okt+'px'}">合并成功</div>
+        </transition>
+        <transition-group name="list" tag="ul">
+            <li :class="color(item.level)" :style="style(item)" draggable v-for="(item,inx) in mydata" :key="item" @dragstart="dragstart(item,inx)" @dragover="dragover" @dragenter="dragenter(item)" @dragleave="dragleave(item)" @dragend="dragend" @drop="drop(item,inx)" @touchstart="touchstart(item,inx)" @touchmove="touchmove" @touchend="touchend">{{item.name}}<i>{{item.level}}</i></li>
+        </transition-group>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script>
+    "use strict";var levelinfo=[{name:"社区新鱼",level:1},{name:"初级小鱼",level:2},{name:"中级小鱼",level:3},{name:"高级小鱼",level:4},{name:"青铜小鱼",level:5},{name:"黄金小鱼",level:6},{name:"白金小鱼",level:7},{name:"钻石小鱼",level:8},{name:"社区老鱼",level:9}],mydata=[{name:"高级小鱼",level:4},{name:"社区新鱼",level:1},{name:"初级小鱼",level:2},{name:"社区新鱼",level:1},{name:"社区新鱼",level:1},{name:"社区新鱼",level:1},{name:"社区新鱼",level:1},{name:"初级小鱼",level:2},{name:"初级小鱼",level:2},{name:"社区新鱼",level:1},{name:"中级小鱼",level:3}];new Vue({el:".nums",data:{mydata:mydata,draglevel:"",dragtarget:"",clonetarget:"",xdel:"",ok:!1,okl:0,okt:0,droptarget:"",droplevel:"",xh:"",abs_x:0,abs_y:0,down:!1,offset:[]},mounted:function(){var e=this;Array.from(document.getElementsByClassName("nums")[0].getElementsByTagName("li")).forEach(function(t,s){e.offset.push({inx:s,left:t.offsetLeft,top:t.offsetTop})})},computed:{},watch:{},methods:{style:function(e){var t={};return e.select&&(t.opacity=".3"),e.to&&(t.border="dashed 1px red"),t},color:function(e){return e<=2?"gray":e<=4?"green":"yellow"},dragstart:function(e,t){this.draglevel=e.level,this.dragtarget=event.target,this.xdel=t,this.$set(e,"select",!0)},dragover:function(){event.preventDefault()},dragenter:function(e){this.$set(e,"to",!0)},dragleave:function(e){this.$set(e,"to",!1)},dragend:function(){var e=this;this.mydata.map(function(t,s){e.$set(t,"select",!1),e.$set(t,"to",!1)})},drop:function(e,t){event.preventDefault();var s=this;if(e.level==this.draglevel&&event.target!=this.dragtarget){var i=e.level+1;this.$set(e,"level",i);var l=levelinfo.filter(function(e){return e.level==i});this.$set(e,"name",l[0].name),this.mydata.splice(this.xdel,1),this.ok=!0,this.xdel<t?this.okl=event.target.offsetLeft-event.target.offsetWidth-10:this.okl=event.target.offsetLeft,setTimeout(function(){s.ok=!1},1500)}else e.level!=this.draglevel&&event.target!=this.dragtarget&&(this.xdel<t?(this.mydata.splice(t+1,0,this.mydata[this.xdel]),this.mydata.splice(this.xdel,1)):(this.mydata.splice(t,0,this.mydata[this.xdel]),this.mydata.splice(this.xdel+1,1)))},touchstart:function(e,t){this.down=!0,this.draglevel=e.level,this.dragtarget=event.target,this.xdel=t,this.$set(e,"select",!0);var s=event.target;this.abs_x=event.targetTouches[0].clientX-s.offsetLeft,this.abs_y=event.targetTouches[0].clientY-s.offsetTop,this.clonetarget=s.cloneNode(!0),this.clonetarget.style.cssText="position:fixed;z-index:1000;opacity:.8;left:"+s.offsetLeft+"px;top:"+s.offsetTop+"px",s.parentNode.appendChild(this.clonetarget)},touchmove:function(){var e=this;if(this.down){var t=event.target,s=t.offsetHeight/2,i=t.offsetWidth/2,l=event.targetTouches[0].clientX-this.abs_x,a=event.targetTouches[0].clientY-this.abs_y;this.clonetarget.style.cssText="transition:none;position:fixed;z-index:1000;opacity:.8;left:"+l+"px;top:"+a+"px";var n=this.offset.filter(function(e,t){return l-e.left>=-i&&l-e.left<=i&&a-e.top>=-s&&a-e.top<=s}),o=this.mydata.filter(function(e,t){if(n.length>0)return t==n[0].inx});n.length>0&&(this.mydata.map(function(t){e.$set(t,"to",!1)}),this.$set(o[0],"to",!0),this.droptarget=document.getElementsByClassName("nums")[0].getElementsByTagName("li")[n[0].inx],this.droplevel=o[0].level,this.xh=n[0].inx)}},touchend:function(){var e=this;if(this.down=!1,event.target.parentNode.removeChild(this.clonetarget),this.mydata.map(function(t,s){e.$set(t,"select",!1),e.$set(t,"to",!1)}),this.droplevel==this.draglevel&&this.droptarget!=this.dragtarget){var t=this.droplevel+1,s=levelinfo.filter(function(e){return e.level==t}),i=this.mydata.filter(function(t,s){return s==e.xh});this.$set(i[0],"level",t),this.$set(i[0],"name",s[0].name),this.mydata.splice(this.xdel,1),this.ok=!0,this.xdel<this.xh?this.okl=this.droptarget.offsetLeft-this.droptarget.offsetWidth-10:this.okl=this.droptarget.offsetLeft,this.okt=this.droptarget.offsetTop,setTimeout(function(){e.ok=!1},1500)}else this.droplevel!=this.draglevel&&this.droptarget!=this.dragtarget&&(this.xdel<this.xh?(this.mydata.splice(this.xh+1,0,this.mydata[this.xdel]),this.mydata.splice(this.xdel,1)):(this.mydata.splice(this.xh,0,this.mydata[this.xdel]),this.mydata.splice(this.xdel+1,1)))}}});
+    </script>
+</body>
+
+</html>

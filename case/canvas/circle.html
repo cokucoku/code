@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>canvas抽獎</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .time-graph {
+            padding-top: 20px;
+            display: flex;
+            display: -webkit-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="time-graph">
+    <canvas id="time" width="160" height="160"></canvas>
+    <canvas id="weather" width="160" height="160"></canvas>
+</div>
+<script type="text/javascript">
+   "use strict";function drawCircle(e,t,a,r){function i(){o.save(),o.beginPath(),o.strokeStyle=r,o.arc(h,s,v,0,2*Math.PI),o.stroke(),o.closePath(),o.restore()}function n(e){o.save(),o.beginPath(),o.strokeStyle=a,o.lineCap="round",o.arc(h,s,v,-Math.PI/2,-Math.PI/2+l*e),o.stroke(),o.closePath(),o.restore()}function c(e){o.save(),o.fillStyle=a;o.font="30px Helvetica";var t=o.measureText(e.toFixed(0)+"%").width;o.fillText(e.toFixed(0)+"%",h-t/2,s+15),o.restore()}var o=e.getContext("2d"),h=e.width/2,s=e.height/2,l=2*Math.PI/100,d=0;o.lineWidth=8;var v=h-2*o.lineWidth;!function a(){requestAnimationFrame(a),o.clearRect(0,0,e.width,e.height),i(),c(d),n(d),d>=t||(d+=1)}()}var time_canvas=document.getElementById("time");drawCircle(time_canvas,70,"#85d824","#eef7e4");var weather_canvas=document.getElementById("weather");drawCircle(weather_canvas,75,"#2ba0fb","#e5f1fa");
+</script>
+</body>
+
+</html>

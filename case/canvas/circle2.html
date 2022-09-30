@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>canvas 环圈</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background-size: cover;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<canvas id="my">
+</canvas>
+
+<script type="text/javascript">
+   "use strict";function dong(){begin+=6;var t=begin+150,e=begin+100,a=begin+230;ctx.clearRect(0,0,c.width,c.height),ctx.lineWidth=14;var o=c.width/2+100*Math.cos(Math.PI/180*begin),r=c.height/2+100*Math.sin(Math.PI/180*begin),i=c.width/2+100*Math.cos(Math.PI/180*t),n=c.height/2+100*Math.sin(Math.PI/180*t);ctx.lineCap="round",ctx.beginPath();var h=ctx.createLinearGradient(o,r,i,n);h.addColorStop(0,"transparent"),h.addColorStop(.8,"green"),h.addColorStop(1,"yellow"),ctx.strokeStyle=h,ctx.arc(c.width/2,c.height/2,100,Math.PI/180*begin,Math.PI/180*t),ctx.stroke(),ctx.closePath(),ctx.beginPath();var d=ctx.createLinearGradient(o,r,i,n);d.addColorStop(0,"transparent"),d.addColorStop(.8,"#ff197c"),d.addColorStop(1,"#e300ff"),ctx.strokeStyle=d,ctx.arc(c.width/2,c.height/2,80,Math.PI/180*begin,Math.PI/180*e),ctx.stroke(),ctx.closePath(),ctx.beginPath();var g=ctx.createLinearGradient(o,r,i,n);g.addColorStop(0,"transparent"),g.addColorStop(.7,"#5dff54"),g.addColorStop(1,"#2f2eff"),ctx.strokeStyle=g,ctx.arc(c.width/2,c.height/2,60,Math.PI/180*begin,Math.PI/180*a),ctx.stroke(),ctx.closePath(),requestAnimationFrame(dong)}var c=document.getElementById("my");c.width=window.innerWidth,c.height=window.innerHeight,c.style.backgroundColor="#000";var ctx=c.getContext("2d");ctx.globalCompositeOperation="lighter";var begin=0;dong();
+</script>
+</body>
+
+</html>

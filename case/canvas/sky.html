@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>canvas 旋转星空效果</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        .skyBg {
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            background-image: url("src/bgsky.jpg");
+            background-position: center bottom;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div class="skyBg">
+    <canvas id="sky"></canvas>
+</div>
+
+<script type="text/javascript">
+    //画星空
+    let sky = document.getElementById("sky");
+    let ctx = sky.getContext("2d");
+    let stars = [], particleIndex = 0, a, b;
+    let settings = {
+        r: 1300,                // 根据是设计稿确定的轨迹半径
+        height: 260,            // 露出的圆弧的高度
+        num: 4500
+    };
+    init()
+
+    function init() {
+        sky.width = window.innerWidth;
+        sky.height = window.innerHeight;
+        a = sky.width / 2;
+        b = sky.height - settings.height + settings.r;
+    }
+
+    window.addEventListener('resize', init)
+    //月明星稀少
+    let getMinRandom = function () {
+        let rand = Math.random();
+        // step的大小决定了星星靠近地球的聚拢程度，
+        // step = Math.ceil(2 / (1 - rand))就聚拢很明显
+        let step = Math.ceil(1 / (1 - rand));
+        let arr = [];
+        for (let i = 0; i < step; i++) {
+            arr.push(Math.random());
+        }
+        return Math.min.apply(null, arr);
+    };
+
+    let star = function () {
+        // 圆的轨迹方程式为：(x-a)²+(y-b)²=r²
+        // 因此，已知x, 则y = Math.sqrt(r² - (x-a)²) + b;
+        // 其中，圆心是(a, b)
+        // 在本例子中
+        // 圆心坐标是(sky.width/2, sky.height - settings.height + settings.r);
+        //因为HTML坐标的Y轴跟方程式Y轴相反，所以要转换
+        //最总的y = b-Math.sqrt(r² - (x-a)²);
+
+        this.offsetY = getMinRandom() * (sky.height - settings.height);
+        this.MaxopaCity = Math.random() * 0.6;
+        this.opaCity = 0;
+        this.opaAdd = 0.01;
+        this.raduis = Math.random() * 2.2;
+        this.color = "#fff";
+        this.speed = Math.random() * 1.2;
+        this.posX = (Math.random() * sky.width);
+        //this.posY = b - Math.sqrt(settings.r * settings.r - (this.posX - a) * (this.posX - a)) - this.offsetY;
+        //stars[particleIndex] = this;
+        //particleIndex++;
+    };
+    star.prototype.draw = function () {
+        // 横坐标移动
+        this.posX += this.speed;
+        this.posY = b - Math.sqrt(settings.r * settings.r - (this.posX - a) * (this.posX - a)) - this.offsetY;
+        //透明度慢慢起来
+        this.opaCity += this.opaAdd;
+        if (this.opaCity >= this.MaxopaCity) {
+            this.opaAdd = -0.01;
+        }
+        if (this.opaCity <= 0.1) {
+            this.opaAdd = 0.01;
+        }
+        if (this.posX > sky.width) {
+            return false
+            //this.posX = -2 * this.raduis;
+        }
+        //绘制星星
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.opaCity;
+        ctx.beginPath();
+        ctx.arc(this.posX, this.posY, this.raduis, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
+        return true
+    };
+
+
+    draw();
+
+    function draw() {
+        ctx.clearRect(0, 0, sky.width, sky.height);
+        if (stars.length < settings.num) {
+            stars.push(new star())
+        }
+        stars = stars.filter(function (p) {
+            return p.draw()
+        })
+        requestAnimationFrame(draw)
+    }
+</script>
+</body>
+
+</html>

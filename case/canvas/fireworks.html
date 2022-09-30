@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>canvas 烟花灯光等等</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background-size: cover;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<canvas id="my">
+</canvas>
+
+<script type="text/javascript">
+    "use strict";function light(t,i){var h=["blue","#e300ff","green","red","yellow","#8ae2f6","#42baa1"],e=Math.round(6*Math.random());this.length=800,this.deg=4,this.direc=Math.random()>.5?1:-1,this.rotate=120*Math.random()+210,this.addR=1.5*Math.random()+.2,this.color=h[e],this.cx=t,this.cy=i}function firework(t){this.id=xh;var i=["blue","#e300ff","green","red","yellow","#8ae2f6","#fb9370"],h=Math.round(6*Math.random());this.length=80,this.thick=6,this.maxY=425*Math.random()+425,this.moveStep=16,this.color=i[h],this.cx=t,this.oldY=c.height,this.cy=c.height,this.len=0,this.step=2*Math.random()+.5,this.ts=0,xh++}function dong(){ctx.clearRect(0,0,c.width,c.height),ctx.restore(),ctx.shadowBlur=0,ctx.drawImage(myimg,0,0,myimg.width,myimg.height,0,0,c.width,myimg.height),ctx.save();for(var t in fireworks)fireworks[t].dong();for(var i in lights)lights[i].dong();requestAnimationFrame(dong)}var c=document.getElementById("my");c.width=window.innerWidth,c.height=window.innerHeight;var ctx=c.getContext("2d"),myimg=new Image;myimg.src="src/xk2.jpg",ctx.globalCompositeOperation="lighter",light.prototype.dong=function(){ctx.restore(),this.rotate+=this.addR*this.direc,this.rotate>=330&&(this.direc=-this.direc),this.rotate<=210&&(this.direc=-this.direc);var t=ctx.createRadialGradient(this.cx,this.cy,0,this.cx,this.cy,this.length);t.addColorStop(.1,"#fff"),t.addColorStop(.3,this.color),t.addColorStop(1,"transparent"),ctx.fillStyle=t,ctx.shadowBlur=15,ctx.shadowColor=this.color,ctx.beginPath(),ctx.moveTo(this.cx,this.cy),ctx.arc(this.cx,this.cy,this.length,Math.PI/180*(this.rotate-this.deg/2),Math.PI/180*(this.rotate+this.deg/2)),ctx.closePath(),ctx.fill(),ctx.save()};var xh=0;firework.prototype.dong=function(){ctx.restore(),this.cy-=this.moveStep,ctx.lineWidth=this.thick,ctx.shadowBlur=15,ctx.lineJoin="round",Math.abs(this.cy-this.oldY)>=this.maxY&&(this.moveStep=0,this.length-=8,this.length<=0&&(this.length=0,this.fasan()));var t=ctx.createRadialGradient(this.cx,this.cy+this.length,0,this.cx,this.cy+this.length,this.length);t.addColorStop(.1,"transparent"),t.addColorStop(.9,this.color),t.addColorStop(1,"#fff"),ctx.strokeStyle=t,ctx.shadowColor=this.color,ctx.beginPath(),ctx.moveTo(this.cx,this.cy),ctx.lineTo(this.cx,this.cy+this.length),ctx.closePath(),ctx.stroke(),ctx.save()},firework.prototype.fasan=function(){ctx.restore();var t=ctx.createRadialGradient(this.cx,this.cy,0,this.cx,this.cy,this.len);this.len+=this.step,this.ts+=.01,this.ts>=.99?(this.ts=.99,t.addColorStop(0,"transparent"),t.addColorStop(1,"transparent")):(t.addColorStop(this.ts,"transparent"),t.addColorStop(.99,this.color),t.addColorStop(1,"#fff")),ctx.strokeStyle=t,ctx.shadowColor=this.color;for(var i=0;i<24;i++){var h=this.cx+this.len*Math.cos(Math.PI/180*i*15),e=this.cy+this.len*Math.sin(Math.PI/180*i*15);ctx.beginPath(),ctx.lineTo(this.cx,this.cy),ctx.lineTo(h,e),ctx.closePath(),ctx.stroke()}ctx.save()};var fireworks=[],lights=[];lights[0]=new light(182,634),lights[1]=new light(542,703),lights[2]=new light(592,723),lights[3]=new light(1326,615),lights[4]=new light(1218,759),lights[5]=new light(1739,423),dong(),fireworks.push(new firework(Math.random()*window.innerWidth)),setInterval(function(){fireworks.push(new firework(Math.random()*window.innerWidth)),fireworks.length>6&&fireworks.splice(0,3)},600);
+</script>
+</body>
+
+</html>

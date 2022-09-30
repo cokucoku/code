@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>计算器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="src/jsq.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="display">
+            <div class="result" :class="{sm:sm}" v-cloak>
+                {{result}}
+            </div>
+        </div>
+        <div class="panel">
+            <div class="k h" @click="reset"><span>AC</span></div>
+            <div class="k h" @click="handle_zf"><span>+/-</span></div>
+            <div class="k h" @click="handle_kou"><span>%</span></div>
+            <div class="k" @click="handle_ysf('/')"><span>÷</span></div>
+            <div class="k" @click="handle_num(7)"><span>7</span></div>
+            <div class="k" @click="handle_num(8)"><span>8</span></div>
+            <div class="k" @click="handle_num(9)"><span>9</span></div>
+            <div class="k" @click="handle_ysf('*')"><span>X</span></div>
+            <div class="k" @click="handle_num(4)"><span>4</span></div>
+            <div class="k" @click="handle_num(5)"><span>5</span></div>
+            <div class="k" @click="handle_num(6)"><span>6</span></div>
+            <div class="k" @click="handle_ysf('-')"><span>-</span></div>
+            <div class="k" @click="handle_num(1)"><span>1</span></div>
+            <div class="k" @click="handle_num(2)"><span>2</span></div>
+            <div class="k" @click="handle_num(3)"><span>3</span></div>
+            <div class="k" @click="handle_ysf('+')"><span>+</span></div>
+            <div class="k zero" @click="handle_num(0)"><span>0</span></div>
+            <div class="k" @click="handle_dot('.')"><span>.</span></div>
+            <div class="k" @click="handle_js"><span>=</span></div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script>
+    "use strict";var sUserAgent=navigator.userAgent.toLowerCase(),bIsIpad="ipad"==sUserAgent.match(/ipad/i),bIsIphoneOs="iphone os"==sUserAgent.match(/iphone os/i),bIsMidp="midp"==sUserAgent.match(/midp/i),bIsUc7="rv:1.2.3.4"==sUserAgent.match(/rv:1.2.3.4/i),bIsUc="ucweb"==sUserAgent.match(/ucweb/i),bIsAndroid="android"==sUserAgent.match(/android/i),bIsCE="windows ce"==sUserAgent.match(/windows ce/i),bIsWM="windows mobile"==sUserAgent.match(/windows mobile/i);bIsIpad||bIsIphoneOs||bIsMidp||bIsUc7||bIsUc||bIsAndroid||bIsCE||bIsWM?document.getElementById("app").classList.add("mobile"):document.getElementById("app").classList.add("pc"),new Vue({el:"#app",data:{rs:"0",after:"",ysf:"",ysfnum:0,zf:1,sm:!1},mounted:function(){},methods:{reset:function(){this.rs=0,this.after="",this.ysf=""},handle_ysf:function(s){this.after&&(this.ysf?this.yunsuan(this.ysf):this.rs=this.after),this.after="",this.ysf=s},handle_num:function(s){0==Number(this.after)&&this.after.indexOf(".")<0&&(this.after=""),this.after+=String(s)},handle_dot:function(s){if(this.after){if(this.after.indexOf(".")>0)return}else this.after=this.rs;this.after+=String(s)},handle_js:function(){this.after&&(this.ysf?this.yunsuan(this.ysf):this.rs=this.after),this.ysf="",this.after=""},handle_zf:function(){this.after?this.after=-this.after:this.rs=-this.rs},handle_kou:function(){this.after?this.after=.01*this.after:this.rs=.01*this.rs},yunsuan:function(s){console.log(this.rs,this.after,this.ysf),"+"==s?this.rs=Number(this.rs)+Number(this.after):"-"==s?this.rs=Number(this.rs)-Number(this.after):"*"==s?this.rs=Number(this.rs)*Number(this.after):"/"==s&&(this.rs=Number(this.rs)/Number(this.after)),0==isFinite(this.rs)&&(this.rs=0)}},computed:{result:function(){if(this.after){var s=String(this.after).length;return this.sm=s>9,this.after}var s=String(this.rs).length;return this.sm=s>9,this.rs}},watch:{keyword:{immediate:!0,handler:function(s){}}}});
+    //console.log(isFinite(Infinity))
+    </script>
+</body>
+
+</html>

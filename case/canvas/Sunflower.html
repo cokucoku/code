@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>canvas 向日葵线</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background-size: cover;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<canvas id="my">
+</canvas>
+
+<script type="text/javascript">
+    "use strict";function dong(){deg+=1,ctx.clearRect(-c.width/2,-c.height/2,c.width,c.height),ctx.lineWidth=1;var t=330+110*Math.sin(deg*per*330),e=t*Math.cos(deg*per),i=t*Math.sin(deg*per);ctx.strokeStyle="#fff",ctx.lineTo(e,i),ctx.stroke(),deg>360||requestAnimationFrame(dong)}var c=document.getElementById("my");c.width=window.innerWidth,c.height=window.innerHeight,c.style.backgroundColor="#000";var ctx=c.getContext("2d");ctx.translate(c.width/2,c.height/2);var deg=0,radius=100,per=Math.PI/180;dong();
+
+</script>
+</body>
+
+</html>

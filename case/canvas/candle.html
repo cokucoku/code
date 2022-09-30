@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>canvas 乐谱</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background-color: #000;
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+<canvas id="my">
+
+</canvas>
+
+<script type="text/javascript">
+"use strict";function render(){ctx.clearRect(0,0,c.width,c.height);for(var t in flames)flames[t].dong();requestAnimationFrame(render)}var c=document.getElementById("my"),ctx=c.getContext("2d");c.width=window.innerWidth,c.height=window.innerHeight;var flame=function(){this.maxX=c.width/2+6,this.minX=c.width/2-6,this.zf=Math.random()>.5?1:-1,this.r=24,this.x=c.width/2+6*this.zf*Math.random(),this.y=c.height/4-4*this.r*Math.random(),this.leSpeed=1.4*Math.random()};flame.prototype.dong=function(){ctx.save(),ctx.beginPath();var t=ctx.createLinearGradient(c.width/2,0,c.width/2,470);t.addColorStop(.6,"#de3727"),t.addColorStop(1,"#000"),ctx.fillStyle=t,ctx.fillRect(c.width/2-50,c.height/4,100,470),ctx.closePath(),ctx.restore(),this.y-=1.4,this.y<c.height/4-4*this.r&&(this.y=c.height/4-4*this.r*Math.random()),this.x+=this.leSpeed,this.x>this.maxX&&(this.leSpeed=-1.4*Math.random()),this.x<this.minX&&(this.leSpeed=1.4*Math.random()),ctx.save(),ctx.beginPath(),ctx.globalCompositeOperation="lighter";var i=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r);i.addColorStop(0,"#4b1c08"),i.addColorStop(1,"transparent"),ctx.fillStyle=i,ctx.fillRect(this.x-this.r,this.y-this.r,2*this.r,2*this.r),ctx.closePath(),ctx.restore()};for(var flames=[],i=0;i<80;i++)flames[i]=new flame;render();
+
+</script>
+</body>
+
+</html>
