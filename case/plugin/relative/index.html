@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>关系图谱</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <style>
+  * {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    box-sizing: border-box;
+  }
+
+  body {
+    overflow: hidden;
+    height: 100vh;
+    font-family: Arial;
+  }
+
+
+  </style>
+</head>
+
+<body>
+<canvas id="relative" width="710" height="710"></canvas>
+<script src="relative.js"></script>
+<script type="text/javascript">
+let data = {
+    name: '惠施',
+    pic: 'ren/ren1_hs.jpg',
+    ms: '战国时期',
+    relative:
+        [{
+            type: '朋友', name: '庄子', pic: 'ren/ren2_zz.jpg', ms: '哲学家', both: true
+        }, {
+            type: '亲历', name: '濠梁之辩', pic: 'ren/ren3_hlzb.jpg', ms: '', to: true
+        }, {
+            type: '君臣', name: '魏惠王', pic: 'ren/ren4_whw.jpg', ms: '战国时期', both: true
+        }, {
+            type: '成就', name: '《庄子·天下篇》', pic: 'ren/ren5_txb.jpg', ms: '庄子著作', to: true
+        }, {
+            type: '成就', name: '名家学派', pic: 'ren/ren6.jpg', ms: '战国时期学派', to: true
+        }, {
+            type: '宰相', name: '魏国', pic: 'ren/ren7.jpg', ms: '魏惠王时期', from: true
+        },
+        ]
+}
+new relative('#relative', {
+    relative: data,//数据
+    fullscreen: true,//自适应视窗
+    bgColor: "#333",//背景颜色
+    scale: 1,//缩放
+    radius: 30,//圈的半径大小
+    shadowColor: '#65f',//圈投影颜色
+    lineColor: '#fff',//线条颜色
+    rectColor: '#000',//矩形字体颜色
+    nameColor: '#fff',//name字体颜色
+    nameSize: 14,//name字体大小
+    msColor: '#999',//ms字体颜色
+    msSize: 11,//ms字体大小
+})
+</script>
+</body>
+
+</html>

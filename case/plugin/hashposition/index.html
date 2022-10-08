@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  <title>区域里随机不重叠放置</title>
+</head>
+
+<body>
+<div class="wan">
+  <div class="fk">
+  </div>
+</div>
+<div class="random">随机改变</div>
+<style>
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.random {
+  margin-top: 25px;
+  border-radius: 15px;
+  height: 40px;
+  width: fit-content;
+  font-size: 16px;
+  line-height: 40px;
+  user-select: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0 15px;
+  background: #d02d1d;
+}
+
+.wan {
+  width: 373px;
+  height: 323px;
+  background: url("bowl_bg.png");
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fk {
+  width: 260px;
+  height: 120px;
+  position: relative;
+}
+
+.bubble {
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background-size: contain;
+}
+
+.bubble1 {
+  background-image: url("shaizi_1.png");
+}
+
+.bubble2 {
+  background-image: url("shaizi_2.png");
+}
+
+.bubble3 {
+  background-image: url("shaizi_3.png");
+}
+
+.bubble4 {
+  background-image: url("shaizi_4.png");
+}
+
+.bubble5 {
+  background-image: url("shaizi_5.png");
+}
+
+.bubble6 {
+  background-image: url("shaizi_6.png");
+}
+
+</style>
+<script src="hashPosition.js"></script>
+<script>
+let num = 6
+let fk = document.querySelector('.fk')
+new hashPosition({
+    el: '.fk',
+    //bubbleWidth: 60,
+    //bubbleHeight: 60,
+    num: num,
+    complete: (rs) => {
+        for (let i = 0; i < num; i++) {
+            let bubble = document.createElement('div')
+            bubble.className = 'bubble bubble' + Math.ceil(Math.random() * 6)
+            bubble.style.cssText = "left:" + rs[i].x + "px;top:" + rs[i].y + "px"
+            fk.appendChild(bubble)
+        }
+    }
+});
+let random = document.querySelector('.random')
+random.addEventListener('click', () => {
+    new hashPosition({
+        el: '.fk',
+        //bubbleWidth: 60,
+        //bubbleHeight: 60,
+        num: num,
+        complete: (rs) => {
+            let bubble = document.querySelectorAll('.bubble')
+            bubble.forEach((el,i) => {
+                el.style.cssText = "left:" + rs[i].x + "px;top:" + rs[i].y + "px"
+            })
+        }
+    });
+})
+</script>
+</body>
+
+</html>

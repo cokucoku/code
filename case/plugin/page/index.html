@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>翻页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="Page.css">
+  <style type="text/css" media="screen">
+  .list {
+    padding: 10px 0;
+  }
+
+  .list ul {
+    display: flex;
+    flex-wrap: wrap;
+    width: 99%
+  }
+
+  .list ul li {
+    width: 9%;
+    position: relative;
+    padding-bottom: 9%;
+    height: 0px;
+    overflow: hidden;
+    margin: 0 0% 1% 1%;
+    background-color: #f2f2f2
+  }
+
+  .list ul li img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+  }
+
+  .list ul li img.load {
+    width: auto;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1
+  }
+
+
+  .list ul li span {
+    color: #fff;
+    font-size: 14px;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+    left: 0;
+    bottom: 0;
+    white-space: nowrap;
+    background-color: rgba(0, 0, 0, .6);
+    padding: 3px 6px;
+    text-align: center;
+  }
+  </style>
+</head>
+
+<body>
+<div class="tdong">跳到第二页</div>
+<div id="page"></div>
+<div class="list" id="list">
+  <ul>
+  </ul>
+</div>
+<script src="Page.js"></script>
+<script type="text/javascript">
+var a = new Page(
+    '#page', {
+        curpage: 1,
+        totalpage: 10, //总页数,
+        theme: 'green', //red,yellow,black,green,
+        size: 'm', //s,m,l
+        layout: 'total,prevnext,pager,jumpr',//total,prevnext, pager,jumpr"
+        clickback: function (page) {
+            fetch('https://api.apiopen.top/api/getMiniVideo?page=' + page)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (myJson) {
+                    var ul = document.getElementById('list').getElementsByTagName('ul')[0]
+                    ul.innerHTML = ''
+                    for (var i = 0; i < myJson.result.list.length; i++) {
+                        var li = document.createElement('li')
+                        var img = document.createElement('img')
+                        img.src = myJson.result.list[i].picurl
+                        li.appendChild(img)
+                        ul.appendChild(li)
+
+                    }
+
+                });
+        }
+    });
+//
+var tdong = document.querySelector('.tdong')
+tdong.onclick = function () {
+    a.go(2)
+}
+
+</script>
+</body>
+
+</html>

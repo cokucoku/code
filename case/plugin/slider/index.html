@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>sortable</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="slider.css">
+  <style>
+  #slider, #slider1 {
+    margin: 55px;
+  }
+
+  #ll {
+    width: 600px;
+    display: none;
+  }
+  </style>
+</head>
+
+<body>
+<div id="slider"></div>
+<div id="slider1"></div>
+<script src="slider.js"></script>
+<script type="text/javascript">
+let slider = document.getElementById("slider");
+let slider1 = document.getElementById("slider1");
+var si = new Slider(
+    '#slider', {
+        //theme: 'yellow', //red,yellow,black,green,
+        size: 'm', //s,m,l
+        initvalue: 12, //初始值
+        showtip: true,
+        slideend: function (val, string) {
+            console.log(val, string)
+        }
+    });
+//si.go(10)
+//si.disabled()
+new Slider(
+    slider1, {
+        theme: 'yellow', //red,yellow,black,green,
+        size: 'm', //s,m,l
+        initvalue: 2, //初始值
+        showtip: true,
+        step: 2, //间断值
+        showstop: true, //显示断点
+        min: 30,
+        max: 60,
+        slideend: function (val) {
+
+        }
+    });
+
+</script>
+</body>
+
+</html>

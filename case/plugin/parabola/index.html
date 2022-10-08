@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  <title>抛物线运动</title>
+</head>
+
+<body>
+<div class="begin">开始运动</div>
+<div class="ball" id="ball"></div>
+<div class="target" id="target"></div>
+<style>
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  overflow: hidden;
+}
+
+.ball {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: green;
+  border-radius: 100%;
+  bottom: 0px;
+}
+
+.target {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  width: 60px;
+  height: 60px;
+  background: #f60;
+  border-radius: 100%;
+}
+
+.begin {
+  background: #00b052;
+  color: #fff;
+  position: absolute;
+  left: 50%;
+  border-radius: 15px;
+  padding: 5px 14px;
+  cursor: pointer;
+}
+
+.disabled {
+  pointer-events: none;
+  background: #999
+}
+
+</style>
+<script src="parabola.js"></script>
+<script>
+let begin = document.querySelector('.begin');
+begin.addEventListener('click', () => {
+    begin.classList.add('disabled')
+    let pa = new parabola({
+        el: '.ball',
+        target: '.target',
+        speed: 18,
+        curvature: 0.0019,
+        success: function (status) {
+            if (status === 'ok') {
+                begin.classList.remove('disabled')
+                setTimeout(() => {
+                    document.querySelector('.ball').style.cssText = ''
+                }, 200)
+            }
+        }
+    });
+    pa.move()
+})
+
+
+</script>
+</body>
+
+</html>
