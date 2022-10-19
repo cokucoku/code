@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>羊了个羊</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <style>
+
+  * {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    box-sizing: border-box;
+  }
+
+  [v-cloak] {
+    display: none;
+  }
+
+  body {
+    background: #cffb99;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+  }
+
+  .kong {
+    width: 0;
+    height: 1.28125rem;
+    /*animation: big .2s both;*/
+  }
+
+  @keyframes big {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 1.28125rem;
+    }
+
+
+  }
+
+  #app {
+    width: 10rem;
+    height: 80vh;
+    margin: 0 auto;
+  }
+
+  #app .k {
+    height: calc(100% - 2.71875rem);
+    padding: 0 0.53125rem;
+    z-index: 1;
+    position: relative;
+  }
+
+  #app .kn {
+    height: 84%;
+    position: relative;
+  }
+
+  #app .cao {
+    height: 2.71875rem;
+    background: url("src/ylgy/cao.jpg");
+    background-size: cover;
+  }
+
+  .pai.disable {
+    pointer-events: none;
+    filter: drop-shadow(0 0.109375rem 0 #506b12);
+  }
+
+  .pai.disable:before {
+    content: '';
+    background: rgba(0, 0, 0, .5);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .pai {
+    cursor: pointer;
+    width: 1.28125rem;
+    height: 1.28125rem;
+    background-size: 90%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #f7fed2;
+    overflow: hidden;
+    border-radius: 0.125rem;
+    filter: drop-shadow(0 0.109375rem 0 #78a01b);
+    border: solid 2px #5a702f;
+  }
+
+
+  .absolute {
+    position: absolute;
+  }
+
+  .pai-1 {
+    background-image: url("src/ylgy/1.png");
+  }
+
+  .pai-2 {
+    background-image: url("src/ylgy/2.png");
+  }
+
+  .pai-3 {
+    background-image: url("src/ylgy/3.png");
+  }
+
+  .pai-4 {
+    background-image: url("src/ylgy/4.png");
+  }
+
+  .pai-5 {
+    background-image: url("src/ylgy/5.png");
+  }
+
+  .pai-6 {
+    background-image: url("src/ylgy/6.png");
+  }
+
+  .pai-7 {
+    background-image: url("src/ylgy/7.png");
+  }
+
+  .pai-8 {
+    background-image: url("src/ylgy/8.png");
+  }
+
+  .pai-9 {
+    background-image: url("src/ylgy/9.png");
+  }
+
+  .pai-10 {
+    background-image: url("src/ylgy/10.png");
+  }
+
+  .pai-11 {
+    background-image: url("src/ylgy/11.png");
+  }
+
+  .pai-12 {
+    background-image: url("src/ylgy/12.png");
+  }
+
+  .pai-13 {
+    background-image: url("src/ylgy/13.png");
+  }
+
+  .pai-14 {
+    background-image: url("src/ylgy/14.png");
+  }
+
+  .pai-15 {
+    background-image: url("src/ylgy/15.png");
+  }
+
+  .star {
+    width: 3.84375rem;
+    height: 1.28125rem;
+    background-position: 44%;
+    background-size: 3.84375rem;
+  }
+
+  .star.have {
+    background-image: url("src/ylgy/star.gif");
+  }
+
+
+  .area {
+    width: calc(100% - 0.53125rem);
+    height: 1.28125rem;
+    margin: 0.53125rem 0 0 0.53125rem;
+    float: left;
+    display: flex;
+    position: relative;
+  }
+
+
+  .tip {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .8);
+    z-index: 999;
+    color: #d00;
+    font-weight: bold;
+    font-size: 1.2625rem;
+  }
+
+  .tip div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  .my-enter-active, .my-leave-active {
+    transition: all .4s ease-in-out;
+  }
+
+  .my-enter, .my-leave-to {
+    opacity: 0
+  }
+
+  .my-leave, .my-enter-to {
+    opacity: 1
+  }
+
+  @media screen and (max-width: 420px) {
+
+
+  }
+
+
+  </style>
+</head>
+<body>
+<div id="app">
+  <transition name="my">
+    <template v-if="err" v-cloak="">
+      <div class="tip" @click="reset">
+        <div>槽位已满</div>
+      </div>
+    </template>
+  </transition>
+  <div class="k">
+    <div class="kn">
+      <template v-cloak v-if="data.length>0">
+        <div :data-id="item.id" @click="fly(item.no,xh)" class="pai absolute"
+             :class="[{disable:item.level<0},'pai-'+item.no]"
+             v-for="(item,xh) in data"
+             :style="'zIndex:'+item.level+';left:'+(item.x/64)+'rem;top:'+(item.y/64)+'rem'"></div>
+      </template>
+    </div>
+  </div>
+  <div class="cao">
+    <div class="area"></div>
+  </div>
+</div>
+<script src="src/ylgy/flexible.js"></script>
+<script src="src/ylgy/TweenMax.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2" type="text/javascript"></script>
+<script type="text/javascript">
+/*Obfuscated by JShaman.com*/new Vue({'el':'#app','data':{'target':{},'err':![],'data':[],'area':[]},'created'(){let _0x2e3f9b=0xcf831^0xcf80d;let _0x325ca4=0x2c6fb^0x2c6f1;this['createData'](_0x2e3f9b,_0x325ca4);},'computed':{},'watch':{'area':{'immediate':!![],'handler'(_0x17796f){if(_0x17796f['length']>(0xc45c1^0xc45c1)){let _0x4c3da5=this['tjNum'](_0x17796f);let _0x3e4ab4=Object['values'](_0x4c3da5);if(_0x17796f['length']>=(0x750e8^0x750ef)){if(_0x3e4ab4['indexOf'](0x3e05b^0x3e058)>-(0x21845^0x21844)){this['err']=![];}else{this['err']=!![];}}}}},'data':{'immediate':![],'deep':!![],'handler'(_0x564d26){let _0x559ba8=_0x564d26['every'](_0x4f40ac=>{return _0x4f40ac['level']<(0xb4c11^0xb4c11);});if(_0x559ba8){_0x564d26['forEach'](_0x349a0b=>{this['$set'](_0x349a0b,'level',_0x349a0b['level']+=0x485f9^0x485f8);});}}}},'methods':{'getArrIndex'(_0x37a5dd,_0xdbe7a1){let _0x149055=null;let _0x3dfdce=Object['keys'](_0xdbe7a1)[0xeaadb^0xeaadb];_0x37a5dd['every'](function(_0x3fe42d,_0x4ac89a){if(_0x3fe42d[_0x3dfdce]===_0xdbe7a1[_0x3dfdce]){_0x149055=_0x4ac89a;return![];}else{return!![];}});return _0x149055;},'tjNum'(_0xed0d1d){let _0x418be6=_0xed0d1d['reduce']((_0x3fdc06,_0x42c292)=>{if(!_0x3fdc06['hasOwnProperty'](_0x42c292)){_0x3fdc06[_0x42c292]=0x958eb^0x958ea;}else{_0x3fdc06[_0x42c292]++;}return _0x3fdc06;},{});return _0x418be6;},'reset'(){this['err']=![];this['area']=[];document['querySelector']('.area')['innerHTML']='';let _0x3fceea=0x3c;let _0x105f59=0xa;this['createData'](_0x3fceea,_0x105f59);},'createData'(_0x56f810,_0x5e6e2f){let _0x2cd562=document['querySelector']('html')['style']['fontSize']['split']('px')[0x0];let _0x448afc=0x40;let _0x370ee2=0x29;let _0x19f6a9=document['querySelector']('.kn');let _0xf527a4=_0x19f6a9['offsetWidth'];let _0xc88fa=_0x19f6a9['offsetHeight'];let _0x5aa0c8=Math['floor'](_0xf527a4/(_0x370ee2*_0x2cd562/_0x448afc));let _0x1b0546=Math['floor'](_0xc88fa/(_0x370ee2*_0x2cd562/_0x448afc));let _0xe24425=[],_0x6005b0=[];for(let _0x8a6797=0xc5c7e^0xc5c7e;_0x8a6797<_0x5aa0c8;_0x8a6797++){_0xe24425['push'](_0x8a6797*(0x6aebc^0x6ae95));}for(let _0x5e314e=0x675bf^0x675bf;_0x5e314e<_0x1b0546;_0x5e314e++){_0x6005b0['push'](_0x5e314e*0x29);}if(_0x56f810>_0x5aa0c8*_0x1b0546){return;}for(let _0x59139b=0x0;_0x59139b<_0x56f810;_0x59139b++){this['data']['push']({'no':Math['ceil'](Math['random']()*(0x20d95^0x20d9a)),'level':-Math['floor'](Math['random']()*_0x5e6e2f),'x':_0xe24425[Math['floor'](Math['random']()*_0xe24425['length'])],'y':_0x6005b0[Math['floor'](Math['random']()*_0x6005b0['length'])],'id':_0x59139b+0x1});}},'fly'(_0x570950,_0x48f630){let _0x10feeb=document['createElement']('div');let _0x5b4867=document['createElement']('div');let _0x977d2d=document['querySelector']('.area');let _0x5ec490=event['currentTarget'];this['target']={'x':_0x5ec490['offsetLeft'],'y':_0x5ec490['offsetTop'],'id':_0x5ec490['dataset']['id']};let _0x40e22e=_0x5ec490['cloneNode'](!![]);_0x40e22e['classList']['remove']('absolute');_0x40e22e['style']['cssText']='';this['data']['splice'](_0x48f630,0xd4fdb^0xd4fda);if(_0x977d2d['children']['length']>0x0){if(this['area']['indexOf'](_0x570950)<(0x9cad4^0x9cad4)){_0x977d2d['appendChild'](_0x40e22e);this['area']['push'](_0x570950);}else{let _0x43fb0c=this['area']['lastIndexOf'](_0x570950);_0x977d2d['insertBefore'](_0x40e22e,_0x977d2d['children'][_0x43fb0c]['nextElementSibling']);this['area']['splice'](_0x43fb0c,0x0,_0x570950);_0x10feeb['classList']['add']('kong');_0x977d2d['insertBefore'](_0x10feeb,_0x977d2d['children'][_0x43fb0c]['nextElementSibling']);TweenMax['to'](_0x10feeb,0.2,{'width':'1.28125rem','onComplete':()=>{_0x10feeb['remove']();}});}}else{_0x977d2d['appendChild'](_0x40e22e);this['area']['push'](_0x570950);}let _0x567fee=document['querySelector']('.k');let _0x59179a=_0x567fee['scrollHeight']+(0x4147d^0x4145f);let _0x2711b0=document['querySelector']('html')['style']['fontSize']['split']('px')[0x0];let _0x2f8c59=_0x5ec490['offsetLeft'];let _0x395853=_0x5ec490['offsetTop']-_0x59179a;let _0xe567c9=_0x40e22e['offsetLeft'];let _0x201117=_0x40e22e['offsetTop'];TweenMax['set'](_0x40e22e,{'left':_0x2f8c59/_0x2711b0+'rem','top':_0x395853/_0x2711b0+'rem','position':'absolute','zIndex':'44'});TweenMax['to'](_0x40e22e,0.2,{'left':_0xe567c9/_0x2711b0+'rem','top':_0x201117/_0x2711b0+'rem','onComplete':()=>{_0x40e22e['style']='';let _0x5d94bf=this['area']['filter'](_0x227c29=>{return _0x227c29===_0x570950;});if(_0x5d94bf['length']===0x3){let _0x33dd07=[];this['area']['map'](function(_0x5800f2,_0x38cc4f){if(_0x5800f2===_0x570950){_0x33dd07['push'](_0x38cc4f);}});let _0x4a03cb=0x0;for(let _0x37ca93 in _0x33dd07){this['area']['splice'](_0x33dd07[_0x37ca93]-_0x4a03cb,0xae75a^0xae75b);_0x977d2d['children'][_0x33dd07[_0x37ca93]-_0x4a03cb]['remove']();_0x4a03cb++;}_0x5b4867['className']='star\x20have';_0x977d2d['insertBefore'](_0x5b4867,_0x977d2d['children'][_0x33dd07[0x0]]);setTimeout(()=>{_0x5b4867['classList']['remove']('have');TweenMax['to'](_0x5b4867,0.2,{'width':0x0,'onComplete':()=>{_0x5b4867['remove']();}});},0x4b0);}}});}}});
+</script>
+
+</body>
+
+</html>
