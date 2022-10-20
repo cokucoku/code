@@ -241,7 +241,7 @@
         <div :data-id="item.id" @click="fly(item.no,xh)" class="pai absolute"
              :class="[{disable:item.level<0},'pai-'+item.no]"
              v-for="(item,xh) in data"
-             :style="'zIndex:'+item.level+';left:'+(item.x/64)+'rem;top:'+(item.y/64)+'rem'"></div>
+             :style="'zIndex:'+item.level+';left:'+(item.x/64)+'rem;top:'+(item.y/64)+'rem'" :key="item"></div>
       </template>
     </div>
   </div>
