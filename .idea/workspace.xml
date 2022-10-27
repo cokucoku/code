@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3043f5c2-fe00-478e-9be7-488a0c1bb651" name="默认的" comment="" />
+    <list default="true" id="3043f5c2-fe00-478e-9be7-488a0c1bb651" name="默认的" comment="">
+      <change beforePath="$PROJECT_DIR$/case/vue/ylgy.html" beforeDir="false" afterPath="$PROJECT_DIR$/case/vue/ylgy.html" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -125,12 +127,12 @@
       <option name="presentableId" value="Default" />
       <updated>1664517956215</updated>
       <workItem from="1664517957313" duration="4363000" />
-      <workItem from="1666343536030" duration="930000" />
+      <workItem from="1666343536030" duration="1028000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5293000" />
+    <option name="totallyTimeSpent" value="5391000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
