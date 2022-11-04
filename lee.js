@@ -351,22 +351,35 @@
         localStorage.removeItem(key);
     }
     lee.color = {}
-//将16进制转10进制值
-    lee.color.to10 = function (color) {
+//将16进制转RGB
+    lee.color.toRgb = function (color) {
         let colors = color.split('#')[1]
-        let r = colors.slice(0, 2)
+        let lastColor=''
+        let zero=''
+        if(colors.length===3){
+            lastColor=colors.slice(0, 1)+colors.slice(0, 1)+colors.slice(1, 2)+colors.slice(1, 2)+colors.slice(2, 3)+colors.slice(2, 3)
+
+        }else{
+            let buzeroNum=6-colors.length
+            for(let i=0;i<buzeroNum;i++){
+                zero+='0'
+            }
+            lastColor=zero+colors
+        }
+        let r = lastColor.slice(0, 2)
         let r1 = r.slice(0, 1)
         let r2 = r.slice(1, 2)
-        let g = colors.slice(2, 4)
+        let g = lastColor.slice(2, 4)
         let g1 = g.slice(0, 1)
         let g2 = g.slice(1, 2)
-        let b = colors.slice(4, 6)
+        let b = lastColor.slice(4, 6)
         let b1 = b.slice(0, 1)
         let b2 = b.slice(1, 2)
         let R = Number(tonum(r1) * 16) + Number(tonum(r2))
         let G = Number(tonum(g1) * 16) + Number(tonum(g2))
         let B = Number(tonum(b1) * 16) + Number(tonum(b2))
-        return {R: R, G: G, B: B}
+        let rgb = 'rgb(' + R + ',' + G + ',' + B + ')'
+        return rgb
     }
 
     function tonum(str) {
@@ -398,4 +411,136 @@
         }
         return str
     }
-})(window['lee']|| (window['lee'] = {version: '1.0'}));
+//将RGB转16进制
+    lee.color.rgbTo16 = function (color) {
+        let lastColor=''
+        let colors = color.split(',')
+        if(colors.length!=3){
+            console.warn('你输入的RGB值错误')
+            lastColor='你输入的RGB值错误'
+            return lastColor
+        }
+        let r = colors[0]
+        let g = colors[1]
+        let b = colors[2]
+        let fr=String(toletter(Math.floor(r/16)))
+        let lr=String(toletter(r%16))
+        let fg=String(toletter(Math.floor(g/16)))
+        let lg=String(toletter(g%16))
+        let fb=String(toletter(Math.floor(b/16)))
+        let lb=String(toletter(b%16))
+        lastColor = '#' + fr+lr+fg+lg+fb+lb
+        return lastColor
+    }
+
+    function toletter(str) {
+        switch (str) {
+            case 10:
+                str = 'a'
+                break;
+            case 11:
+                str = 'b'
+                break;
+            case 12:
+                str = 'c'
+                break;
+            case 13:
+                str = 'd'
+                break;
+            case 14:
+                str = 'e'
+                break;
+            case 15:
+                str = 'f'
+                break;
+        }
+        return str
+    }
+//将Hsv转RGB
+lee.color.hsvToRgb=function(data) {
+            let splitArr=data.split(',')
+            let h = splitArr[0], s = splitArr[1], v = splitArr[2];
+            s = s / 100;
+            v = v / 100;
+            let r = 0, g = 0, b = 0;
+            let i = parseInt((h / 60) % 6);
+            let f = h / 60 - i;
+            let p = v * (1 - s);
+            let q = v * (1 - f * s);
+            let t = v * (1 - (1 - f) * s);
+            switch (i) {
+                case 0:
+                    r = v;
+                    g = t;
+                    b = p;
+                    break;
+                case 1:
+                    r = q;
+                    g = v;
+                    b = p;
+                    break;
+                case 2:
+                    r = p;
+                    g = v;
+                    b = t;
+                    break;
+                case 3:
+                    r = p;
+                    g = q;
+                    b = v;
+                    break;
+                case 4:
+                    r = t;
+                    g = p;
+                    b = v;
+                    break;
+                case 5:
+                    r = v;
+                    g = p;
+                    b = q;
+                    break;
+                default:
+                    break;
+            }
+            r = parseInt(r * 255.0)
+            g = parseInt(g * 255.0)
+            b = parseInt(b * 255.0)
+            let rgb = 'rgb(' + r + ',' + g + ',' + b + ')'
+            return rgb
+
+        }
+//将Object格式的发送参数转为连接字符串参数
+    lee.objToStr = function (obj) {
+        let params = Object.keys(obj).map(function (key) {
+            return encodeURIComponent(key) + "=" + encodeURIComponent(obj[key]);
+        }).join("&");
+        return params
+    }
+//api请求
+    lee.api = function (apiurl, params, fmt, method) {
+        let xmlhttp = new XMLHttpRequest();
+        params = typeof (params) == 'object' ? lee.objToStr(params) : encodeURI(params);
+        apiurl = method.toLowerCase() == "post" ? apiurl : apiurl.indexOf("?") < 0 ? apiurl + '?' + params : apiurl.replace(/[&?]*/g, "") + '&' + params;
+        xmlhttp.open(method, apiurl, true);
+        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlhttp.send(params || null);
+        xmlhttp.onreadystatechange = function () {
+            var rs
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                if (fmt.toLowerCase() == 'json') {
+                    try {
+                        rs = JSON.parse(xmlhttp.responseText)
+                    } catch (e) {
+                        rs = xmlhttp.responseText
+                    }
+                    xmlhttp.onComplete.call(xmlhttp, rs)
+                } else {
+                    rs = xmlhttp.responseXml
+                    xmlhttp.onComplete.call(xmlhttp, rs)
+                }
+            }
+
+        }
+        return xmlhttp
+    }
+})(window['lee'] || (window['lee'] = {version: '1.0'}));
