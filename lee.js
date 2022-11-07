@@ -354,17 +354,17 @@
 //将16进制转RGB
     lee.color.toRgb = function (color) {
         let colors = color.split('#')[1]
-        let lastColor=''
-        let zero=''
-        if(colors.length===3){
-            lastColor=colors.slice(0, 1)+colors.slice(0, 1)+colors.slice(1, 2)+colors.slice(1, 2)+colors.slice(2, 3)+colors.slice(2, 3)
+        let lastColor = ''
+        let zero = ''
+        if (colors.length === 3) {
+            lastColor = colors.slice(0, 1) + colors.slice(0, 1) + colors.slice(1, 2) + colors.slice(1, 2) + colors.slice(2, 3) + colors.slice(2, 3)
 
-        }else{
-            let buzeroNum=6-colors.length
-            for(let i=0;i<buzeroNum;i++){
-                zero+='0'
+        } else {
+            let buzeroNum = 6 - colors.length
+            for (let i = 0; i < buzeroNum; i++) {
+                zero += '0'
             }
-            lastColor=zero+colors
+            lastColor = zero + colors
         }
         let r = lastColor.slice(0, 2)
         let r1 = r.slice(0, 1)
@@ -411,25 +411,26 @@
         }
         return str
     }
+
 //将RGB转16进制
     lee.color.rgbTo16 = function (color) {
-        let lastColor=''
+        let lastColor = ''
         let colors = color.split(',')
-        if(colors.length!=3){
+        if (colors.length != 3) {
             console.warn('你输入的RGB值错误')
-            lastColor='你输入的RGB值错误'
+            lastColor = '你输入的RGB值错误'
             return lastColor
         }
         let r = colors[0]
         let g = colors[1]
         let b = colors[2]
-        let fr=String(toletter(Math.floor(r/16)))
-        let lr=String(toletter(r%16))
-        let fg=String(toletter(Math.floor(g/16)))
-        let lg=String(toletter(g%16))
-        let fb=String(toletter(Math.floor(b/16)))
-        let lb=String(toletter(b%16))
-        lastColor = '#' + fr+lr+fg+lg+fb+lb
+        let fr = String(toletter(Math.floor(r / 16)))
+        let lr = String(toletter(r % 16))
+        let fg = String(toletter(Math.floor(g / 16)))
+        let lg = String(toletter(g % 16))
+        let fb = String(toletter(Math.floor(b / 16)))
+        let lb = String(toletter(b % 16))
+        lastColor = '#' + fr + lr + fg + lg + fb + lb
         return lastColor
     }
 
@@ -456,59 +457,87 @@
         }
         return str
     }
-//将Hsv转RGB
-lee.color.hsvToRgb=function(data) {
-            let splitArr=data.split(',')
-            let h = splitArr[0], s = splitArr[1], v = splitArr[2];
-            s = s / 100;
-            v = v / 100;
-            let r = 0, g = 0, b = 0;
-            let i = parseInt((h / 60) % 6);
-            let f = h / 60 - i;
-            let p = v * (1 - s);
-            let q = v * (1 - f * s);
-            let t = v * (1 - (1 - f) * s);
-            switch (i) {
-                case 0:
-                    r = v;
-                    g = t;
-                    b = p;
-                    break;
-                case 1:
-                    r = q;
-                    g = v;
-                    b = p;
-                    break;
-                case 2:
-                    r = p;
-                    g = v;
-                    b = t;
-                    break;
-                case 3:
-                    r = p;
-                    g = q;
-                    b = v;
-                    break;
-                case 4:
-                    r = t;
-                    g = p;
-                    b = v;
-                    break;
-                case 5:
-                    r = v;
-                    g = p;
-                    b = q;
-                    break;
-                default:
-                    break;
-            }
-            r = parseInt(r * 255.0)
-            g = parseInt(g * 255.0)
-            b = parseInt(b * 255.0)
-            let rgb = 'rgb(' + r + ',' + g + ',' + b + ')'
-            return rgb
 
+//将Hsv转RGB
+    lee.color.hsvToRgb = function (hsv) {
+        let r, g, b, i, f, p, q, t;
+        let h=hsv.split(',')[0]
+        let s=hsv.split(',')[1]
+        let v=hsv.split(',')[2]
+        //自己写的补充
+        h=h/360
+        s=s/100
+        v=v/100
+
+        //
+        i = Math.floor(h * 6);
+        f = h * 6 - i;
+        p = v * (1 - s);
+        q = v * (1 - f * s);
+        t = v * (1 - (1 - f) * s);
+        switch (i % 6) {
+            case 0:
+                r = v, g = t, b = p;
+                break;
+            case 1:
+                r = q, g = v, b = p;
+                break;
+            case 2:
+                r = p, g = v, b = t;
+                break;
+            case 3:
+                r = p, g = q, b = v;
+                break;
+            case 4:
+                r = t, g = p, b = v;
+                break;
+            case 5:
+                r = v, g = p, b = q;
+                break;
         }
+        return {
+            r: Math.round(r * 255),
+            g: Math.round(g * 255),
+            b: Math.round(b * 255)
+        };
+
+    }
+//将RGB转Hsv
+    lee.color.rgbToHsv = function (rgb) {
+        let r=Number(rgb.split(',')[0])
+        let g=Number(rgb.split(',')[1])
+        let b=Number(rgb.split(',')[2])
+        let max = Math.max(r, g, b), min = Math.min(r, g, b),
+            d = max - min,
+            h,
+            s = (max === 0 ? 0 : d / max),
+            v = max / 255;
+
+        switch (max) {
+            case min:
+                h = 0;
+                break;
+            case r:
+                h = (g - b) + d * (g < b ? 6 : 0);
+                h /= 6 * d;
+                break;
+            case g:
+                h = (b - r) + d * 2;
+                h /= 6 * d;
+                break;
+            case b:
+                h = (r - g) + d * 4;
+                h /= 6 * d;
+                break;
+        }
+
+        return {
+            h: Math.round(h*360),
+            s: Math.round(s*100),
+            v: Math.round(v*100)
+        };
+
+    }
 //将Object格式的发送参数转为连接字符串参数
     lee.objToStr = function (obj) {
         let params = Object.keys(obj).map(function (key) {
